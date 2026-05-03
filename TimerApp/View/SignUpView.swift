@@ -1,14 +1,13 @@
 //
-//  LoginView.swift
+//  SignUpView.swift
 //  TimerApp
 //
-//  Created by Florence Fendy on 30/4/2026.
+//  Created by Mary Berridge on 3/5/2026.
 //
 
 import SwiftUI
-//note: content view is the login view
 
-struct ContentView: View {
+struct SignUpView: View{
     @State private var loginViewModel = LoginViewModel()
     
     var body: some View {
@@ -43,7 +42,7 @@ struct ContentView: View {
             //note: login and sign in buttons not with functionality yet. they are placeholder buttons that navigates to the home page for now
            
             NavigationLink(destination: HomeScreenView(), label: {
-                Text("Login")
+                Text("Sign Up")
                     .foregroundColor(Color.white)
                     .frame(maxWidth: 300)
                     .frame(height:50)
@@ -54,9 +53,9 @@ struct ContentView: View {
             
             .padding(10)
             
-            
-            NavigationLink(destination: SignUpView(), label: {
-                Text("Don't have an account? \nSign up instead")
+            //note: content view is the login view
+            NavigationLink(destination: ContentView(), label: {
+                Text("Already have an account? \nLogin instead")
                     .multilineTextAlignment(.center)
                     .foregroundColor(Color.blue)
                     .frame(maxWidth: 300)
@@ -72,5 +71,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    SignUpView()
 }
