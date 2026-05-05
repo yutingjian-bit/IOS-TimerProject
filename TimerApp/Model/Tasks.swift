@@ -6,3 +6,9 @@
 //
 
 import Foundation
+struct TasksItem: Identifiable{
+    let id = UUID()
+    var taskName: String
+    var cycle: Int
+    var isComplete: Bool = false
+}
