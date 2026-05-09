@@ -12,6 +12,12 @@ enum TimerMode {
     case study, rest
 }
 
+struct SimpleTask: Identifiable {
+    let id = UUID()
+    var title: String
+    var isDone: Bool
+}
+
 class TimerViewModel: ObservableObject {
     
     @Published var timeRemaining: Int = 25 * 60
@@ -21,13 +27,13 @@ class TimerViewModel: ObservableObject {
     @Published var isRunning = false
     
     @Published var totalPoints = 0
-    
-    @Published var eggStage = 1
-    
+        
     @Published var totalStudySessions = 0
     
-    @Published var showingLongBreakAlert = false
     
+    // shared task pool
+    // the timer screen will automtically detect and display the tasks from the task planner
+    @Published var tasks: [SimpleTask] = []
     
     @Published var studyDuration: Int = 25
     
@@ -35,12 +41,25 @@ class TimerViewModel: ObservableObject {
     
     @Published var totalCycles: Int = 4
     
+    @Published var pointsEarnedThisSession: Int = 0
+    
+    @Published var pointsLostThisSession: Int = 0
+    
+    @Published var selectedEggType: String = "Egg1"
+    
+    @Published var showResults: Bool = false
+    
+    @Published var goHome: Bool = false
+    
+    @Published var isCycle4Completed: Bool = false
+    
     
     private var timer: AnyCancellable?
     
     private var successfulSessions = 0
     
     private var failedSessions = 0
+    
     
     
     var timeString: String {
@@ -59,14 +78,28 @@ class TimerViewModel: ObservableObject {
         return total > 0 ? (Double(successfulSessions) / Double(total)) * 100 : 100
     }
     
-    func eggIcon() -> String {
-        switch eggStage {
-        case 1: return "🥚"
-        case 2: return "🥚🔍"
-        case 3: return "🐱🥚"
-        case 4: return "🐱"
-        default: return "🥚"
+    // helps to loop automatically
+    var eggStage: Int {
+        let cyclePosition = totalStudySessions % totalCycles
+        
+        if showResults || currentMode == .rest {
+            // display the stage we just completed
+            return (cyclePosition == 0 && totalStudySessions > 0) ? 4 : max(1, cyclePosition)
+        } else {
+            return cyclePosition + 1
         }
+    }
+    
+    func currentEggImageName() -> String {
+        let suffix: String
+        switch eggStage {
+        case 1: suffix = "a"
+        case 2: suffix = "b"
+        case 3: suffix = "c"
+        case 4: suffix = "d"
+        default: suffix = "a"
+        }
+        return "\(selectedEggType)\(suffix)"
     }
     
     func startTimer() {
@@ -86,6 +119,10 @@ class TimerViewModel: ObservableObject {
     
     func resetTimer() {
         pauseTimer()
+        // penalise success rate if user resets the timer during a focus cycle/session
+        if currentMode == .study && timeRemaining > 0 {
+            failedSessions += 1
+        }
         timeRemaining = currentMode == .study ? studyDuration * 60 : restDuration * 60
     }
     
@@ -117,54 +154,98 @@ class TimerViewModel: ObservableObject {
         pauseTimer()
         
         if currentMode == .study {
-            completeSession()
+            completeStudySession()
         } else {
             completeRestSession()
         }
     }
     
+    
+    
+    
+    
     private func completeStudySession() {
+        pauseTimer()
+        
         totalStudySessions += 1
         successfulSessions += 1
-        totalPoints += 10
         
-        if totalStudySessions % 2 == 0 && eggStage < 4 {
-            eggStage += 1
+        let earned = 10
+        totalPoints += earned
+        pointsEarnedThisSession = earned
+        pointsLostThisSession = 0
+        
+        
+        if eggStage > 1 {
             totalPoints += 5
         }
+        // help us to check if we just completed the 4th cycle in the loop
+        isCycle4Completed = (totalStudySessions > 0 && totalStudySessions % totalCycles == 0)
         
-        if totalStudySessions >= totalCycles {
-            showingLongBreakAlert = true
-        } else {
-            currentMode = .rest
-            timeRemaining = restDuration * 60
-            startTimer()
-        }
+        showResults = true
+        
+        
     }
     
-    private func completeRestSession() {
-        currentMode = .study
-        timeRemaining = studyDuration * 60
+    
+    
+    
+    func startShortBreak() {
+        showResults = false
+        currentMode = .rest
+        timeRemaining = restDuration * 60
         startTimer()
     }
     
+    
     func startLongBreak() {
-        showingLongBreakAlert = false
+        showResults = false
         currentMode = .rest
         timeRemaining = 15 * 60
         startTimer()
     }
     
+    func completeRestSession() {
+        pauseTimer()
+        
+        currentMode = .study
+        timeRemaining = studyDuration * 60
+        startTimer()
+    }
+
     
+    
+    func skipBreakAndStartNewCycle() {
+        showResults = false
+        pauseTimer()
+        currentMode = .study
+        timeRemaining = studyDuration * 60
+        startTimer()
+    }
+    
+    
+    // hard reset
     func startNewSession() {
         currentMode = .study
         timeRemaining = studyDuration * 60
         isRunning = false
         totalStudySessions = 0
         successfulSessions = 0
-        eggStage = 1
+        pointsLostThisSession = 0
+        pointsEarnedThisSession = 0
         totalPoints = 0
         failedSessions = 0
         timer?.cancel()
     }
+    
+    
+    // task management: it specifically used to check off tasks and move completed tasks to the bottom
+    func toggleTask(id: UUID) {
+        if let index = tasks.firstIndex(where: { $0.id == id }) {
+            tasks[index].isDone.toggle()
+            
+            tasks.sort { !$0.isDone && $1.isDone }
+        }
+    }
+    
 }
