@@ -2,8 +2,9 @@
 //  EggSelectionView.swift
 //  TimerApp
 //
-//  Created by Amenah Al-Saegh on 6/5/2026.
+//  Created by Mary Berridge on 10/5/2026.
 //
+
 
 import SwiftUI
  
