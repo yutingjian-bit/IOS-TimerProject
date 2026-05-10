@@ -119,7 +119,7 @@ struct EggSelectionView: View {
  
             Spacer()
  
-            NavigationLink(destination: TaskView(timerViewModel: timerViewModel)) {
+            NavigationLink(destination: TaskView()) {
                 Text("Continue to Task Planning")
                     .foregroundColor(.white)
                     .frame(maxWidth: 300)
