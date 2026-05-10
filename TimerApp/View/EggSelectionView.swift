@@ -7,7 +7,7 @@
 
 import SwiftUI
  
-// The 4 egg types matching your asset names
+
 struct EggOption: Identifiable {
     let id          = UUID()
     let eggType:      String   // "Egg1", "Egg2", "Egg3", "Egg4"
@@ -17,7 +17,6 @@ struct EggOption: Identifiable {
 }
  
 struct EggSelectionView: View {
-    // Passed in from SettingsView so settings carry through to StudySession
     @ObservedObject var timerViewModel: TimerViewModel
  
     let eggOptions: [EggOption] = [
