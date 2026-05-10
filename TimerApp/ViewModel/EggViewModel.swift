@@ -5,6 +5,37 @@
 //  Created by Florence Fendy on 30/4/2026.
 //
 
-import Foundation
+import SwiftUI
 
+struct CollectedEgg: Identifiable {
+    let id = UUID()
+    let eggType: String
+    let finalImage: String
+    let sessionNumber: Int
+    let dateEarned: Date
+
+    var displayName: String {
+        switch eggType {
+        case "Egg1": return "Blue Cat"
+        case "Egg2": return "Orange Cat"
+        case "Egg3": return "Dark Cat"
+        case "Egg4": return "Royal Cat"
+        default: return "Cat"
+        }
+    }
+}
+
+class EggViewModel: ObservableObject {
+    @Published var collectedEggs: [CollectedEgg] = []
+
+    func addEgg(eggType: String, sessionNumber: Int) {
+        let egg = CollectedEgg(
+            eggType: eggType,
+            finalImage: "\(eggType)d",
+            sessionNumber: sessionNumber,
+            dateEarned: Date()
+        )
+        collectedEggs.append(egg)
+    }
+}
 
