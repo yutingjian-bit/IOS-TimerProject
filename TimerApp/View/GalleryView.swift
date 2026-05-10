@@ -1,6 +1,6 @@
 //
 //  GalleryView.swift
-//  TimerApp
+//  TimerAppProject
 //
 //  Created by Amenah Al-Saegh on 10/5/2026.
 //
@@ -125,3 +125,4 @@ struct GalleryView: View {
             }())
     }
 }
+
