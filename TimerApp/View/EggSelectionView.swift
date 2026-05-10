@@ -10,23 +10,21 @@ import SwiftUI
  
 struct EggOption: Identifiable {
     let id          = UUID()
-    let eggType:      String   // "Egg1", "Egg2", "Egg3", "Egg4"
-    let imageName:    String   // the 'a' egg image shown during selection
+    let eggType:      String
+    let imageName:    String
     let eggName:      String
     let description:  String
 }
  
 struct EggSelectionView: View {
-    @ObservedObject var timerViewModel: TimerViewModel
  
     let eggOptions: [EggOption] = [
-        EggOption(eggType: "Egg1", imageName: "Egg1a", eggName: "Blue Egg",    description: "Hatches a white cat"),
-        EggOption(eggType: "Egg2", imageName: "Egg2a", eggName: "Orange Egg",  description: "Hatches an orange tabby"),
-        EggOption(eggType: "Egg3", imageName: "Egg3a", eggName: "Dark Egg",    description: "Hatches a dark cat"),
-        EggOption(eggType: "Egg4", imageName: "Egg4a", eggName: "Royal Egg",   description: "Hatches a royal cat"),
+        EggOption(eggType: "Egg1", imageName: "Egg1a", eggName: "Blue Egg",   description: "Hatches a white cat"),
+        EggOption(eggType: "Egg2", imageName: "Egg2a", eggName: "Orange Egg", description: "Hatches an orange tabby"),
+        EggOption(eggType: "Egg3", imageName: "Egg3a", eggName: "Dark Egg",   description: "Hatches a dark cat"),
+        EggOption(eggType: "Egg4", imageName: "Egg4a", eggName: "Royal Egg",  description: "Hatches a royal cat"),
     ]
  
-    // Which egg is tapped — default to first
     @State private var selectedEggType: String = "Egg1"
  
     var selectedOption: EggOption {
@@ -36,7 +34,6 @@ struct EggSelectionView: View {
     var body: some View {
         VStack(spacing: 20) {
  
-            // Title
             Text("Egg Selection")
                 .font(.largeTitle)
                 .bold()
@@ -52,7 +49,6 @@ struct EggSelectionView: View {
                 .foregroundColor(.secondary)
                 .padding(.horizontal, 20)
  
-            // Egg row
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 20) {
                     ForEach(eggOptions) { option in
@@ -98,7 +94,6 @@ struct EggSelectionView: View {
                 .padding(.vertical, 10)
             }
  
-            // Selection feedback
             VStack(spacing: 6) {
                 Text("You selected: \(selectedOption.eggName)")
                     .font(.headline)
@@ -129,9 +124,6 @@ struct EggSelectionView: View {
                     .background(Color.yellow)
                     .clipShape(Capsule())
             }
-            .simultaneousGesture(TapGesture().onEnded {
-                timerViewModel.selectedEggType = selectedEggType
-            })
             .padding(.bottom, 40)
         }
         .navigationTitle("")
@@ -141,7 +133,6 @@ struct EggSelectionView: View {
  
 #Preview {
     NavigationView {
-        EggSelectionView(timerViewModel: TimerViewModel())
+        EggSelectionView()
     }
 }
-
