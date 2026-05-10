@@ -8,7 +8,7 @@
 import SwiftUI
  
 struct GalleryView: View {
-    @EnvironmentObject var eggStore: EggViewModel
+   @StateObject var eggStore = EggViewModel()
  
     let columns = [
         GridItem(.flexible()),
