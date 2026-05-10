@@ -8,7 +8,7 @@
 import SwiftUI
  
 struct GalleryView: View {
-   @StateObject var eggStore = EggViewModel()
+    @StateObject var eggStore = EggViewModel()
  
     let columns = [
         GridItem(.flexible()),
@@ -21,7 +21,6 @@ struct GalleryView: View {
     var body: some View {
         VStack(spacing: 0) {
  
-            // Title
             Text("Egg Gallery")
                 .font(.largeTitle)
                 .bold()
@@ -36,11 +35,9 @@ struct GalleryView: View {
                 .foregroundColor(.secondary)
                 .padding(.vertical, 10)
  
-            // Empty state
             if eggStore.collectedEggs.isEmpty {
                 Spacer()
                 VStack(spacing: 16) {
-                    // Show the egg images as a teaser
                     HStack(spacing: 12) {
                         Image("Egg1a").resizable().scaledToFit().frame(width: 60, height: 70)
                         Image("Egg2a").resizable().scaledToFit().frame(width: 60, height: 70)
@@ -60,7 +57,6 @@ struct GalleryView: View {
                 Spacer()
  
             } else {
-                // Grid of earned eggs
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 16) {
                         ForEach(eggStore.collectedEggs) { egg in
@@ -78,10 +74,6 @@ struct GalleryView: View {
                                 Text("Session \(egg.sessionNumber)")
                                     .font(.caption2)
                                     .foregroundColor(.secondary)
- 
-                                Text(egg.formattedDate)
-                                    .font(.caption2)
-                                    .foregroundColor(.orange)
                             }
                             .padding(.vertical, 12)
                             .padding(.horizontal, 6)
@@ -111,18 +103,5 @@ struct GalleryView: View {
 #Preview {
     NavigationView {
         GalleryView()
-            .environmentObject({
-                let store = EggViewModel()
-                store.collectedEggs = [
-                    CollectedEgg(eggType: "Egg1", finalImage: "Egg1d",
-                                 sessionNumber: 1, dateEarned: Date()),
-                    CollectedEgg(eggType: "Egg2", finalImage: "Egg2d",
-                                 sessionNumber: 2, dateEarned: Date()),
-                    CollectedEgg(eggType: "Egg3", finalImage: "Egg3d",
-                                 sessionNumber: 3, dateEarned: Date()),
-                ]
-                return store
-            }())
     }
 }
-
