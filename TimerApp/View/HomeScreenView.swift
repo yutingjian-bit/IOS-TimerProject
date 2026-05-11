@@ -13,6 +13,8 @@ struct HomeScreenView: View {
     
     @EnvironmentObject var timerViewModel: TimerViewModel
    // @EnvironmentObject var userVm: UserViewModel
+    @EnvironmentObject var eggViewModel: EggViewModel  // needed to pass hatched eggs through to GalleryView
+
     
     //colour palette variables. move to a new view model file???
     var buttonColourBlue = Color(red:114/255, green: 182/255, blue: 215/255)
@@ -112,15 +114,14 @@ struct HomeScreenView: View {
                     
                     .padding(10)
                     
-                    NavigationLink(destination: GalleryView(), label: {
+                    NavigationLink(destination: GalleryView().environmentObject(eggViewModel), label: {
                         Text("View Collected Eggs")
                             .foregroundColor(outlineColourBrown)
                             .frame(maxWidth: 300)
-                            .frame(height:50)
+                            .frame(height: 50)
                             .font(.title2)
                             .background(buttonColourBlue)
                             .clipShape(Capsule())
-
                     })
                     
                     Spacer()
@@ -136,5 +137,6 @@ struct HomeScreenView: View {
 
 #Preview {
     HomeScreenView()
-       // .environmentObject(userViewModel())
+        .environmentObject(TimerViewModel())
+        .environmentObject(EggViewModel())
 }
