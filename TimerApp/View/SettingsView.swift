@@ -13,9 +13,12 @@ struct SettingsView: View {
     //colour palette variables. move to a new view model file???
     var buttonColourBlue = Color(red:114/255, green: 182/255, blue: 215/255)
     
+    var buttonColourYellow = Color(red:255/255, green: 215/255, blue: 85/255)
+    
     var outlineColourBrown = Color(red:57/255, green: 33/255, blue: 21/255)
     
     var body: some View {
+        NavigationView{
         ZStack{
             //gradient
             LinearGradient(
@@ -26,27 +29,47 @@ struct SettingsView: View {
             )
             .ignoresSafeArea()
             
-            
-            VStack{
-                VStack(alignment: .center, spacing:30){
-                    Text("Timer Settings")
-                        .font(.largeTitle)
-                        .bold()
-                        .frame(width: 300, height: 60)
-                        .background(Color.blue.opacity(0.5))
-                        .foregroundColor(Color.white)
-                        .cornerRadius(15)
-                        .padding(.top, 150)
-                    
-                    Spacer()
-                }
-
-                .padding(.bottom, 5)
+            //white background
+            ZStack{
+                Rectangle()
+                    .fill(.white)
+                    .cornerRadius(30)
+                    .frame(width:360, height:400)
+                    .padding(.bottom, 120)
                 
-           
+                
+                VStack{
+                    
+                    
+                    VStack(alignment: .center, spacing:30){
+                        ZStack{
+                            
+                            Image("titleCardA")
+                                .resizable()
+                                .frame(width: 400, height: 160)
+                                .padding(.top, 90)
+                                .padding(.trailing, 10)
+                            
+                            Text("Timer Settings")
+                                .font(.largeTitle)
+                            //.bold()
+                                .frame(width: 300, height: 60)
+                            //  .background(Color.blue.opacity(0.5))
+                                .foregroundColor(Color.black)
+                                .cornerRadius(15)
+                                .padding(.top, 140)
+                            
+                            Spacer()
+                        }
+                    }
+                    
+                    
+                    .padding(.bottom, 5)
+                    
+                    
                     VStack(alignment: .leading, spacing:10){
-                        Text("Total Study Time: \(Int(viewModel.studyDuration)) minutes")
-                            .font(.headline)
+                        Text("**Total Study Time:** \(Int(viewModel.studyDuration)) minutes")
+                            .font(.body)
                         Divider()
                         Slider(
                             value: Binding(
@@ -63,74 +86,76 @@ struct SettingsView: View {
                         .tint(.yellow.opacity(0.5))
                         
                     }
-                
-                .padding(.top, 30)
-                .padding(.horizontal, 20)
-                Spacer()
-                
-                VStack(alignment: .leading, spacing: 10){
-                    Text("Total Rest Time: \(Int(viewModel.restDuration)) minutes")
-                        .font(.headline)
-                    Divider()
-                    Slider(
-                        value: Binding(
-                            get: { Double(viewModel.restDuration) },
-                            set: { viewModel.restDuration = Int($0) }
-                        ),
-                        in: 5...10,
-                        step:1,
-                        minimumValueLabel: Text("5"),
-                        maximumValueLabel: Text("10")
-                    ) {
-                        Text("study cycle time")
-                    }
                     
-                    .tint(.red.opacity(0.5))
-                }
-                .padding(.top, 60)
-                .padding(.horizontal, 20)
-                
-                VStack(alignment: .leading, spacing:10){
-                    Text("Total Study Cycle: \(Int(viewModel.totalCycles)) Cycles")
-                        .font(.headline)
-                    Divider()
-                    Slider(
-                        value: Binding(
-                            get: { Double(viewModel.totalCycles) },
-                            set: { viewModel.totalCycles = Int($0) }
-                        ),
-                        in: 2...4,
-                        minimumValueLabel: Text("2"),
-                        maximumValueLabel: Text("4")
-                    ) {
-                        Text("study cycle time")
-                    }
+                    .padding(.top, 30)
+                    .padding(.horizontal, 40)
+                    Spacer()
                     
-                    .tint(.green.opacity(0.5))
+                    VStack(alignment: .leading, spacing: 10){
+                        Text("**Total Rest Time:** \(Int(viewModel.restDuration)) minutes")
+                            .font(.body)
+                        Divider()
+                        Slider(
+                            value: Binding(
+                                get: { Double(viewModel.restDuration) },
+                                set: { viewModel.restDuration = Int($0) }
+                            ),
+                            in: 5...10,
+                            step:1,
+                            minimumValueLabel: Text("5"),
+                            maximumValueLabel: Text("10")
+                        ) {
+                            Text("study cycle time")
+                        }
+                        
+                        .tint(.red.opacity(0.5))
+                    }
+                    .padding(.top, 60)
+                    .padding(.horizontal, 40)
+                    
+                    VStack(alignment: .leading, spacing:10){
+                        Text("**Total Study Cycles:** \(Int(viewModel.totalCycles)) Cycles")
+                            .font(.body)
+                        Divider()
+                        Slider(
+                            value: Binding(
+                                get: { Double(viewModel.totalCycles) },
+                                set: { viewModel.totalCycles = Int($0) }
+                            ),
+                            in: 2...4,
+                            minimumValueLabel: Text("2"),
+                            maximumValueLabel: Text("4")
+                        ) {
+                            Text("study cycle time")
+                        }
+                        
+                        .tint(.green.opacity(0.5))
+                    }
+                    .padding(.vertical, 60)
+                    .padding(.horizontal, 40)
+                    
+                    NavigationLink(destination: TaskView(), label: {
+                        Text("Continue to task planning")
+                            .foregroundColor(outlineColourBrown)
+                            .frame(maxWidth: 300)
+                            .frame(height:50)
+                            .font(.title2)
+                            .background(buttonColourYellow)
+                            .clipShape(Capsule())
+                    })
+                    
+                    
+                    .padding(.bottom, 300)
+                    
                 }
-                .padding(.vertical, 60)
-                .padding(.horizontal, 20)
-                
-                NavigationLink(destination: TaskView(), label: {
-                    Text("Continue to task planning")
-                        .foregroundColor(outlineColourBrown)
-                        .frame(maxWidth: 300)
-                        .frame(height:50)
-                        .font(.title2)
-                        .background(buttonColourBlue)
-                        .clipShape(Capsule())
-                })
-                
-             
-                .padding(.bottom, 300)
-                
             }
         }
-      
+        
         
         
         
     }
+}
    
     
       //add navi link to next screen -> task planning

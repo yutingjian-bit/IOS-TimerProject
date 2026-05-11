@@ -106,7 +106,7 @@ struct HomeScreenView: View {
                             .frame(maxWidth: 300)
                             .frame(height:50)
                             .font(.title2)
-                            .background(buttonColourBlue)
+                            .background(buttonColourYellow)
                             .clipShape(Capsule())
                     })
                     
@@ -118,8 +118,9 @@ struct HomeScreenView: View {
                             .frame(maxWidth: 300)
                             .frame(height:50)
                             .font(.title2)
-                            .background(buttonColourYellow)
+                            .background(buttonColourBlue)
                             .clipShape(Capsule())
+
                     })
                     
                     Spacer()
