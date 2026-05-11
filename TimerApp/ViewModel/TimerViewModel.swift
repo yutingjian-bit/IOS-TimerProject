@@ -84,7 +84,11 @@ class TimerViewModel: ObservableObject {
         
         if showResults || currentMode == .rest {
             // display the stage we just completed
-            return (cyclePosition == 0 && totalStudySessions > 0) ? 4 : max(1, cyclePosition)
+            if cyclePosition == 0 && totalStudySessions > 0 {
+                return totalCycles
+            }
+            return cyclePosition == 0 ? 1 : cyclePosition
+            
         } else {
             return cyclePosition + 1
         }

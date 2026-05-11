@@ -102,7 +102,7 @@ struct HomeScreenView: View {
                     }
                     
                     
-                    NavigationLink(destination: SettingsView(), label: {
+                    NavigationLink(destination: SettingsView(viewModel: timerViewModel)) {
                         Text("Start A Study Session")
                             .foregroundColor(outlineColourBrown)
                             .frame(maxWidth: 300)
@@ -110,7 +110,7 @@ struct HomeScreenView: View {
                             .font(.title2)
                             .background(buttonColourYellow)
                             .clipShape(Capsule())
-                    })
+                    }
                     
                     .padding(10)
                     

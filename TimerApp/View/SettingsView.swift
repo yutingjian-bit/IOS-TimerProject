@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @StateObject var viewModel = TimerViewModel()
+    @ObservedObject var viewModel: TimerViewModel
     
+    @EnvironmentObject var timerViewModel: TimerViewModel
     
     //colour palette variables. move to a new view model file???
     var buttonColourBlue = Color(red:114/255, green: 182/255, blue: 215/255)
@@ -135,7 +136,7 @@ struct SettingsView: View {
                     .padding(.vertical, 60)
                     .padding(.horizontal, 40)
                     
-                    NavigationLink(destination: EggSelectionView(), label: {
+                    NavigationLink(destination: EggSelectionView().environmentObject(timerViewModel)){
                         Text("Continue to egg selection")
                             .foregroundColor(outlineColourBrown)
                             .frame(maxWidth: 300)
@@ -143,7 +144,7 @@ struct SettingsView: View {
                             .font(.title2)
                             .background(buttonColourYellow)
                             .clipShape(Capsule())
-                    })
+                    }
                     
                     
                     .padding(.bottom, 300)
@@ -165,5 +166,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView()
+    SettingsView(viewModel: TimerViewModel())
 }
