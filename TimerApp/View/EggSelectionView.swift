@@ -96,8 +96,8 @@ struct EggSelectionView: View {
                         .padding(.bottom, 20)
                     
                     //nav link
-                    NavigationLink(destination: StudySessionView().environmentObject(timerViewModel), label: {
-                        Text("Start Study Session")
+                    NavigationLink(destination: TaskView().environmentObject(timerViewModel), label: {
+                        Text("Go to Task Planner")
                             .foregroundColor(outlineColourBrown)
                             .frame(maxWidth: 300)
                             .frame(height: 50)

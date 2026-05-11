@@ -72,6 +72,17 @@ struct TaskView: View {
                                 .padding(.bottom, 20)
                                 .padding(.top,10)
                             
+                            Picker("Cycle", selection: $selectedCycle) {
+                                Text("Cycle 1").tag(1)
+                                Text("Cycle 2").tag(2)
+                                Text("Cycle 3").tag(3)
+                                Text("Cycle 4").tag(4)
+                            }
+                            .pickerStyle(.segmented)
+                            .padding(.horizontal, 40)
+                            .padding(.bottom, 10)
+                            
+                            
                             TextField("Task 1...", text: $Task1)
                                 .textFieldStyle(.roundedBorder)
                                 .fontWeight(.bold)
@@ -104,7 +115,7 @@ struct TaskView: View {
                                 .padding(.bottom, 30)
                             
                             //nav link - leads to egg selection before starting the session
-                            NavigationLink(destination: EggSelectionView().environmentObject(timerViewModel)) {
+                            NavigationLink(destination: StudySessionView().environmentObject(timerViewModel)) {
                                 Text("Next")
                                     .foregroundColor(outlineColourBrown)
                                     .frame(maxWidth: 300)
