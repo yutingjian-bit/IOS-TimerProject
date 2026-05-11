@@ -40,9 +40,9 @@ struct TaskView: View {
                     Rectangle()
                         .fill(.white)
                         .cornerRadius(30)
-                        .frame(width:360, height:300)
+                        .frame(width:360, height:320)
                         .padding(.bottom, 15)
-                        .padding(.top,155)
+                        .padding(.top,175)
                     
                     VStack{
                         ZStack{
@@ -150,7 +150,7 @@ struct TaskView: View {
                             }
                             
                             
-                                .padding(.bottom, 50)
+                                .padding(.bottom, 20)
                             
                             //nav link - leads to egg selection before starting the session
                             NavigationLink(destination: StudySessionView().environmentObject(timerViewModel)) {
@@ -162,7 +162,7 @@ struct TaskView: View {
                                     .background(buttonColourYellow)
                                     .clipShape(Capsule())
                                 
-                                    .padding(.bottom,200)
+                                    .padding(.bottom,230)
                                     .padding(.top,50)
                             }
                             // saves tasks to the shared view model before navigating
