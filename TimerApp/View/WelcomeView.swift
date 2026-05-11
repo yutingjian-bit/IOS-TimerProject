@@ -52,7 +52,7 @@ struct WelcomeView: View {
                     VStack{
                         VStack{
                     ZStack{
-                        Image("titleCardB")
+                        Image("titleCardA")
                             .resizable()
                             .frame(width: 400, height: 160)
                             //.padding(.bottom, 200)

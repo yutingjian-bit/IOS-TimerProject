@@ -41,7 +41,8 @@ struct TaskView: View {
                         .fill(.white)
                         .cornerRadius(30)
                         .frame(width:360, height:280)
-                        .padding(.bottom, 85)
+                        .padding(.bottom, 35)
+                        .padding(.top,155)
                     
                     VStack{
                         
@@ -61,6 +62,7 @@ struct TaskView: View {
                                 .padding(.top,45 )
                             
                         }
+                        .padding(.top,100)
                         
                         VStack{
                             Text("List the tasks you aim to complete in each cycle:")
@@ -69,8 +71,8 @@ struct TaskView: View {
                                 .frame(width: 320, height: 60)
                                 .foregroundColor(Color.black)
                                 .cornerRadius(15)
-                                .padding(.bottom, 20)
-                                .padding(.top,10)
+                                .padding(.bottom, 40)
+                                .padding(.top,20)
                             
                             Picker("Cycle", selection: $selectedCycle) {
                                 Text("Cycle 1").tag(1)
@@ -81,6 +83,7 @@ struct TaskView: View {
                             .pickerStyle(.segmented)
                             .padding(.horizontal, 40)
                             .padding(.bottom, 10)
+                            .frame(width:440)
                             
                             
                             TextField("Task 1...", text: $Task1)
@@ -124,7 +127,8 @@ struct TaskView: View {
                                     .background(buttonColourYellow)
                                     .clipShape(Capsule())
                                 
-                                    .padding(.bottom,260)
+                                    .padding(.bottom,200)
+                                    .padding(.top,50)
                             }
                             // saves tasks to the shared view model before navigating
                             .simultaneousGesture(TapGesture().onEnded {
