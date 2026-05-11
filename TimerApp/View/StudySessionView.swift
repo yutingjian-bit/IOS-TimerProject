@@ -53,7 +53,7 @@ struct StudySessionView: View {
                     
                 }
                 .padding(.horizontal, 24)
-                .padding(.top, 10)
+                .padding(.top, 40)
                 
                 
                 Spacer(minLength: 30)
@@ -95,26 +95,29 @@ struct StudySessionView: View {
                         .foregroundColor(Color(red: 140/255, green: 100/255, blue: 200/255))
                     
                     ScrollView {
-                        let currentCycleTasks = tasksViewModel.tasks.filter { $0.cycle == viewModel.eggStage }
+                        let currentCycle = max(viewModel.eggStage, 1)
+                        let currentCycleTasks = tasksViewModel.tasks.filter {
+                            $0.cycle == currentCycle
+                        }
                         if currentCycleTasks.isEmpty {
                             Text("No tasks for Cycle \(viewModel.eggStage) yet!")
                                 .font(.callout)
                                 .foregroundColor(.gray)
-                                .padding(.vertical, 10)
+                                .padding(.vertical, 6)
                                 .frame(maxWidth: .infinity, alignment: .center)
                         } else {
                             ForEach(currentCycleTasks) { task in
                                 HStack {
                                     Image(systemName: task.isComplete ? "checkmark.circle.fill" : "circle")
                                         .foregroundColor(task.isComplete ? .green : .gray)
-                                        .font(.body)
+                                        .font(.caption)
                                         .onTapGesture {
                                             withAnimation (.easeInOut(duration: 0.3)) {
                                                 tasksViewModel.toggleTask(id: task.id)
                                             }
                                         }
                                     Text(task.taskName)
-                                        .font(.callout)
+                                        .font(.caption)
                                         .strikethrough(task.isComplete)
                                         .foregroundColor(task.isComplete ? .gray : .primary)
                                     Spacer()
@@ -124,12 +127,12 @@ struct StudySessionView: View {
                             }
                         }
                     }
-                    .frame(maxHeight: viewModel.tasks.isEmpty ? 40 : 80)
+                    .frame(minHeight: 40, maxHeight: 80)
                 
                 }
-                .padding(12)
+                .padding(10)
                 .background(Color.white)
-                .cornerRadius(16)
+                .cornerRadius(12)
                 .shadow(color: .gray.opacity(0.1), radius: 9)
                 .padding(.horizontal, 23)
                 
@@ -213,6 +216,7 @@ struct StudySessionView: View {
             
             }
         }
+        .navigationBarHidden(true)
         
         .fullScreenCover(isPresented: $viewModel.showResults) {
             ResultsView(viewModel: viewModel)
@@ -232,4 +236,5 @@ struct StudySessionView: View {
     StudySessionView()
         .environmentObject(TimerViewModel())
         .environmentObject(UserViewModel())
+        .environmentObject(TasksViewModel())
 }

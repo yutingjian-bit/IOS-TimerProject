@@ -10,6 +10,7 @@ import SwiftUI
 struct TaskView: View {
     @EnvironmentObject var timerViewModel: TimerViewModel
     @EnvironmentObject var tasksViewModel: TasksViewModel
+    @EnvironmentObject var userViewModel: UserViewModel
     @State private var Task1: String = ""
     @State private var Task2: String = ""
     @State private var Task3: String = ""
@@ -111,6 +112,7 @@ struct TaskView: View {
                                 
                                 // saves tasks to the shared view model before navigating
                                 Button {
+                                    
                                     tasksViewModel.removeAllTasks()
                                  
                                     if !Task1.isEmpty {
@@ -155,7 +157,7 @@ struct TaskView: View {
                     StudySessionView()
                         .environmentObject(timerViewModel)
                         .environmentObject(tasksViewModel)
-                    
+                        .environmentObject(userViewModel)
                 }
                 
             }
@@ -169,5 +171,6 @@ struct TaskView: View {
     TaskView()
         .environmentObject(TimerViewModel())
         .environmentObject(TasksViewModel())
+        .environmentObject(UserViewModel())
 }
 

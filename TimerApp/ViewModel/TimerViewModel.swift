@@ -26,9 +26,6 @@ class TimerViewModel: ObservableObject {
     @Published var totalStudySessions = 0
     
     
-    // shared task pool
-    // the timer screen will automtically detect and display the tasks from the task planner
-    @Published var tasks: [TasksItem] = []
     
     @Published var studyDuration: Int = 25 {
         didSet {
@@ -93,18 +90,19 @@ class TimerViewModel: ObservableObject {
     
     // helps to loop automatically
     var eggStage: Int {
+        
         let cyclePosition = totalStudySessions % totalCycles
         
-        if showResults || currentMode == .rest {
-            // display the stage we just completed
-            if cyclePosition == 0 && totalStudySessions > 0 {
-                return totalCycles
+        if currentMode == .study {
+            if cyclePosition == 0 {
+                return 1
             }
-            return cyclePosition == 0 ? 1 : cyclePosition
-            
-        } else {
             return cyclePosition + 1
         }
+        if cyclePosition == 0 {
+            return totalCycles
+        }
+        return cyclePosition
     }
     
     func currentEggImageName() -> String {
@@ -265,21 +263,5 @@ class TimerViewModel: ObservableObject {
     }
     
     
-    // task management: it specifically used to check off tasks and move completed tasks to the bottom
-    func toggleTask(id: UUID) {
-        if let index = tasks.firstIndex(where: { $0.id == id }) {
-            tasks[index].isComplete.toggle()
-            
-        }
-    }
-    
-    func addTask(taskName: String, cycle: Int) {
-        let newTask = TasksItem(taskName: taskName, cycle: cycle, isComplete: false)
-        tasks.append(newTask)
-    }
-    
-    func tasksForCycle(_ cycle: Int) -> [TasksItem] {
-        return tasks.filter { $0.cycle == cycle }
-    }
     
 }
