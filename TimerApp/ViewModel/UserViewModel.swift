@@ -7,15 +7,36 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 class UserViewModel: ObservableObject{
+    
+    //character limit for username
+    private let charLimit = 29
+    
+    //username
+    @AppStorage("username") var username: String = ""{
+        didSet{
+            if username.count > charLimit{
+                username = String(username.prefix(charLimit))
+            }
+        }
+    }
+    @AppStorage("isSetupCompleted") var isSetupCompleted: Bool = false
+    
+    func completeSetup(name: String){
+        objectWillChange.send()
+        self.username = name
+        self.isSetupCompleted = true
+    }
+    
     //hardcoded values for stats. valye is of 0 for now until stats calculation is completed from results view
     //change the placeholder values of 0 to a func that calculates those values
 
-    @Published var totalPoints: Int = 20
-    @Published var totalSessions: Int = 0
-    @Published var totalCycles: Int = 0
-    @Published var totalEggsHatched: Int = 0
+    @AppStorage("totalPoints") var totalPoints: Int = 0
+    @AppStorage("totalSessions") var totalSessions: Int = 0
+    @AppStorage("totalCycles") var totalCycles: Int = 0
+    @AppStorage("totalEggsHatched") var totalEggsHatched: Int = 0
     
     //switch statment chnaging namecard image depending on total points value
     var namecardImage: String{
