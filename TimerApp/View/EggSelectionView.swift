@@ -38,13 +38,12 @@ struct EggSelectionView: View {
             )
             .ignoresSafeArea()
             
-            //white rectangle background. Feel free to adjust size and padding to fit and position any content you want it to fit, or if not needed, delete/uncomment.
             ZStack {
                 Rectangle()
                     .fill(.white)
                     .cornerRadius(30)
-                    .frame(width: 360, height: 380)
-                    .padding(.bottom, 85)
+                    .frame(width: 360, height: 220)
+                    .padding(.bottom, 25)
                 
                 VStack(spacing: 0) {
                     
@@ -64,29 +63,36 @@ struct EggSelectionView: View {
                             .cornerRadius(15)
                             .padding(.top, 45)
                     }
+                    .padding(.bottom, 20)
                     
-                    Text("Select the egg you would like to\nhatch in this study session")
-                        .font(.body)
-                        .multilineTextAlignment(.center)
-                        .foregroundColor(Color.black)
-                        .padding(.top, 10)
-                        .padding(.bottom, 20)
+                    VStack{
+                        Text("Select the egg you would like to\nhatch in this study session")
+                            .font(.title2)
+                            .frame(width: 320, height: 100)
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(Color.black)
+                            .padding(.top, 10)
+                            .padding(.bottom, 50)
+                    }
                     
-                    HStack(spacing: 20) {
-                        ForEach(eggOptions, id: \.id) { egg in
-                            EggOptionButton(
-                                eggId: egg.id,
-                                isSelected: selectedEgg == egg.id,
-                                buttonColourYellow: buttonColourYellow
-                            ) {
-                                selectedEgg = egg.id
+                    VStack{
+                        HStack(spacing: 20) {
+                            ForEach(eggOptions, id: \.id) { egg in
+                                EggOptionButton(
+                                    eggId: egg.id,
+                                    isSelected: selectedEgg == egg.id,
+                                    buttonColourYellow: buttonColourYellow
+                                ) {
+                                    selectedEgg = egg.id
+                                }
                             }
                         }
                     }
-                    .padding(.bottom, 15)
+                    .padding(.bottom, 30)
                     
+                VStack{
                     Text(selectionLabel(for: selectedEgg))
-                        .font(.subheadline)
+                        .font(.body)
                         .foregroundColor(outlineColourBrown)
                         .padding(.bottom, 5)
                     
@@ -96,6 +102,8 @@ struct EggSelectionView: View {
                         .multilineTextAlignment(.center)
                         .frame(width: 280)
                         .padding(.bottom, 20)
+                }
+                .padding(.bottom, 200)
                     
                     //nav link
                     NavigationLink(destination: TaskView()
@@ -110,6 +118,8 @@ struct EggSelectionView: View {
                             .background(buttonColourYellow)
                             .clipShape(Capsule())
                             .padding(.bottom, 260)
+                    }
+                            .padding(.bottom,100)
                     }
                     // saves selected egg to timerViewModel before navigating
                     .simultaneousGesture(TapGesture().onEnded {
@@ -128,7 +138,7 @@ struct EggSelectionView: View {
         default: return ""
         }
     }
-}
+
 
 // MARK: - Egg Option Button
 struct EggOptionButton: View {

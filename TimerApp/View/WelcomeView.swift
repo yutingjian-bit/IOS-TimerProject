@@ -34,7 +34,7 @@ struct WelcomeView: View {
             )
             .ignoresSafeArea()
             
-            Image("Egg3d")
+            Image("Egg4c")
                 .resizable()
                 .frame(width: 200, height: 200)
                 .padding(.top, 600)
@@ -44,17 +44,18 @@ struct WelcomeView: View {
                 Rectangle()
                     .fill(.white)
                     .cornerRadius(30)
-                    .frame(width:360, height:280)
-                    .padding(.bottom, 85)
+                    .frame(width:360, height:180)
+                    .padding(.bottom, 25)
                 
                 
                 VStack{
                     VStack{
+                        VStack{
                     ZStack{
-                        Image("titleCardB")
+                        Image("titleCardA")
                             .resizable()
                             .frame(width: 400, height: 160)
-                        //.padding(.top, 10)
+                            //.padding(.bottom, 200)
                             .padding(.trailing, 10)
                         
                         Text("Welcome!")
@@ -64,38 +65,36 @@ struct WelcomeView: View {
                         //  .background(Color.blue.opacity(0.5))
                             .foregroundColor(Color.black)
                             .cornerRadius(15)
-                            .padding(.top,45 )
+                            .padding(.top,50 )
                     }
-                        
+                    .padding(.bottom,30)
                 }
+                    
                     VStack{
-                        //NOTE:
-                        //add any content for the view here.
-                        //this a placeholder text which can be deleted or used as instruction text (e.g. tasks view)
-                        //After UI content is added, will need to use padding and spacers to position title card, navigation link button etc.
+                        
                         
                         Text("Welcome to PomEggDoro, a study timer app where your focus is rewarded with collectable pets!")
                             .font(.title2)
-                            .frame(width: 320, height: 200)
+                            .frame(width: 320, height: 100)
                             .foregroundColor(Color.black)
-                            //.padding(.bottom, 20)
-                            .padding(.top, 10)
+                           .padding(.bottom, 80)
                             .multilineTextAlignment(.center)
-                        
+                    }
+                    VStack{
                         Text("**What should we call you?**")
                             .font(.title3)
-                            .frame(width: 320, height: 200)
+                            .frame(width: 320, height: 10)
                             .foregroundColor(Color.black)
-                            .padding(.bottom, 20)
-                            //.padding(.top, 10)
+                            .padding(.bottom, 10)
                             .multilineTextAlignment(.center)
+                    }
+                    
+                    VStack{
                         
                         //textbox
                         TextField("Enter your name...", text: $usernameInput)
                             .textFieldStyle(.roundedBorder)
                             .fontWeight(.bold)
-                            .padding(.bottom, 20)
-                            .padding(.top,30)
                             .padding(.horizontal, 100)
                             .frame(width: 500,)
                         
@@ -104,7 +103,9 @@ struct WelcomeView: View {
                             .font(.body)
                             .foregroundColor(usernameInput.count >= limit ? .red : buttonColourBlue)
                             .frame(maxWidth: 300, alignment: .trailing)
-                    
+                    }
+                    .padding(.bottom, 130)
+                        
                         //button
                         Button{
                             if !usernameInput.isEmpty{
@@ -123,6 +124,7 @@ struct WelcomeView: View {
                             .disabled(usernameInput.isEmpty)
                  
                     }
+                    .padding(.bottom, 220)
                 }
             }
         }

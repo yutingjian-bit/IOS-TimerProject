@@ -164,4 +164,5 @@ struct SettingsView: View {
 
 #Preview {
     SettingsView(viewModel: TimerViewModel())
+        .environmentObject(TimerViewModel())
 }

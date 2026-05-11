@@ -44,6 +44,35 @@ struct TaskView: View {
                             .cornerRadius(30)
                             .frame(width:360, height: 300)
                             .padding(.bottom, 85)
+
+                //white background
+                ZStack{
+                    Rectangle()
+                        .fill(.white)
+                        .cornerRadius(30)
+                        .frame(width:360, height:320)
+                        .padding(.bottom, 15)
+                        .padding(.top,175)
+                    
+                    VStack{
+                        ZStack{
+                            
+                            Image("titleCardA")
+                                .resizable()
+                                .frame(width: 400, height: 160)
+                                //.padding(.top, 10)
+                                .padding(.trailing, 10)
+                                .padding(.top, 40)
+                            
+                            Text("Task Planning")
+                                .font(.largeTitle)
+                                .frame(width: 300, height: 100)
+                                .foregroundColor(Color.black)
+                                .cornerRadius(15)
+                                .padding(.top, 80 )
+                            
+                        }
+                        .padding(.top,100)
                         
                         VStack{
                             
@@ -67,6 +96,7 @@ struct TaskView: View {
                             Text("List the tasks you aim to complete in each cycle:")
                                 .font(.title2)
                             // .bold()
+
                                 .frame(width: 320, height: 70)
                                 .foregroundColor(Color.black)
                                 .cornerRadius(15)
@@ -144,6 +174,103 @@ struct TaskView: View {
                                     
                                 }
                                 
+
+                                .frame(width: 320, height: 60)
+                                .foregroundColor(Color.black)
+                                .cornerRadius(15)
+                                .padding(.bottom, 40)
+                                .padding(.top,20)
+                            
+                            Picker("Cycle", selection: $selectedCycle) {
+                                Text("Cycle 1").tag(1)
+                                Text("Cycle 2").tag(2)
+                                Text("Cycle 3").tag(3)
+                                Text("Cycle 4").tag(4)
+                            }
+                            .pickerStyle(.segmented)
+                            .padding(.horizontal, 40)
+                            .padding(.bottom, 10)
+                            .frame(width:440)
+                            
+                            Spacer(minLength: 50)
+                            
+                            VStack{
+                                HStack {
+                                    
+                                    Image("Egg1a")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 50, height: 50)
+                                    
+                                    TextField("Task 1...", text: $Task1)
+                                        .textFieldStyle(.roundedBorder)
+                                        .font(.title3)
+                                        .fontWeight(.black)
+                                        .padding(.bottom, 20)
+                                        .frame(width: 270, height: 10)
+                                }
+                                
+                                Spacer(minLength: 20)
+                                
+                                HStack{
+                                    Image("Egg2a")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 50, height: 50)
+                                    
+                                    TextField("Task 2...", text: $Task2)
+                                        .textFieldStyle(.roundedBorder)
+                                        .font(.title3)
+                                        .fontWeight(.black)
+                                        .padding(.bottom, 20)
+                                        .frame(width: 270)
+                                }
+                                
+                                Spacer(minLength: 20)
+                                
+                                HStack{
+                                    Image("Egg3a")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 50, height: 50)
+                                    
+                                    TextField("Task 3...", text: $Task3)
+                                        .textFieldStyle(.roundedBorder)
+                                        .fontWeight(.black)
+                                        .padding(.bottom, 20)
+                                        .frame(width: 270)
+                                }
+                                Spacer(minLength: 20)
+                                
+                                HStack{
+                                    Image("Egg4a")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 50, height: 50)
+                                    
+                                    TextField("Task 4...", text: $Task4)
+                                        .textFieldStyle(.roundedBorder)
+                                        .fontWeight(.black)
+                                        .padding(.bottom, 20)
+                                        .frame(width: 270)
+                                }
+                            }
+                            
+                            
+                                .padding(.bottom, 20)
+                            
+                            //nav link - leads to egg selection before starting the session
+                            NavigationLink(destination: StudySessionView().environmentObject(timerViewModel)) {
+                                Text("Next")
+                                    .foregroundColor(outlineColourBrown)
+                                    .frame(maxWidth: 300)
+                                    .frame(height:50)
+                                    .font(.title2)
+                                    .background(buttonColourYellow)
+                                    .clipShape(Capsule())
+                                
+                                    .padding(.bottom,230)
+                                    .padding(.top,50)
                             }
                             
                         }
