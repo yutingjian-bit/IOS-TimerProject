@@ -17,6 +17,8 @@ struct StudySessionView: View {
     @State private var newTaskName: String = ""
     
     @EnvironmentObject var userViewModel: UserViewModel
+    
+    @EnvironmentObject var tasksViewModel: TasksViewModel
    
     
     var body: some View {
@@ -93,7 +95,7 @@ struct StudySessionView: View {
                         .foregroundColor(Color(red: 140/255, green: 100/255, blue: 200/255))
                     
                     ScrollView {
-                        let currentCycleTasks = viewModel.tasks.filter { $0.cycle == viewModel.eggStage }
+                        let currentCycleTasks = tasksViewModel.tasks.filter { $0.cycle == viewModel.eggStage }
                         if currentCycleTasks.isEmpty {
                             Text("No tasks for Cycle \(viewModel.eggStage) yet!")
                                 .font(.callout)
@@ -108,7 +110,7 @@ struct StudySessionView: View {
                                         .font(.body)
                                         .onTapGesture {
                                             withAnimation (.easeInOut(duration: 0.3)) {
-                                                viewModel.toggleTask(id: task.id)
+                                                tasksViewModel.toggleTask(id: task.id)
                                             }
                                         }
                                     Text(task.taskName)

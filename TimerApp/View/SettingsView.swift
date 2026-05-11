@@ -10,7 +10,6 @@ import SwiftUI
 struct SettingsView: View {
     @ObservedObject var viewModel: TimerViewModel
     
-    @EnvironmentObject var timerViewModel: TimerViewModel
     
     //colour palette variables. move to a new view model file???
     var buttonColourBlue = Color(red:114/255, green: 182/255, blue: 215/255)
@@ -20,7 +19,6 @@ struct SettingsView: View {
     var outlineColourBrown = Color(red:57/255, green: 33/255, blue: 21/255)
     
     var body: some View {
-        NavigationView{
         ZStack{
             //gradient
             LinearGradient(
@@ -62,7 +60,6 @@ struct SettingsView: View {
                                 .padding(.top, 140)
                             
                             Spacer()
-                        }
                     }
                     
                     
@@ -136,7 +133,7 @@ struct SettingsView: View {
                     .padding(.vertical, 60)
                     .padding(.horizontal, 40)
                     
-                    NavigationLink(destination: EggSelectionView().environmentObject(timerViewModel)){
+                    NavigationLink(destination: EggSelectionView().environmentObject(viewModel)){
                         Text("Continue to egg selection")
                             .foregroundColor(outlineColourBrown)
                             .frame(maxWidth: 300)

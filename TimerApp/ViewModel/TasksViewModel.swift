@@ -28,4 +28,15 @@ class TasksViewModel: ObservableObject{
     func cycleTask(_ index: Int) -> [TasksItem] {
         return tasks.filter {$0.cycle == index}
     }
+    
+    func toggleTask(id: UUID) {
+        if let index = tasks.firstIndex(where: { $0.id == id }) {
+            tasks[index].isComplete.toggle()
+        }
+            
+    }
+    
+    func removeAllTasks() {
+        tasks.removeAll()
+    }
 }
