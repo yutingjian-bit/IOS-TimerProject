@@ -7,40 +7,46 @@
 
 
 import SwiftUI
- 
- 
+
 struct EggSelectionView: View {
     
-    //colour palette variables. move to a new view model file???
-    var buttonColourBlue = Color(red:114/255, green: 182/255, blue: 215/255)
+    @EnvironmentObject var timerViewModel: TimerViewModel
     
-    var buttonColourYellow = Color(red:255/255, green: 215/255, blue: 85/255)
+    @State private var selectedEgg: String = "Egg1"
     
-    var outlineColourBrown = Color(red:57/255, green: 33/255, blue: 21/255)
+    //colour palette variables
+    var buttonColourBlue = Color(red: 114/255, green: 182/255, blue: 215/255)
+    var buttonColourYellow = Color(red: 255/255, green: 215/255, blue: 85/255)
+    var outlineColourBrown = Color(red: 57/255, green: 33/255, blue: 21/255)
     
-    var body: some View{
-        //VStack{
-        ZStack{
+    // egg type names match asset catalogue
+    let eggOptions: [(id: String, label: String)] = [
+        ("Egg1", "1"),
+        ("Egg2", "2"),
+        ("Egg3", "3")
+    ]
+    
+    var body: some View {
+        ZStack {
             //gradient background
             LinearGradient(
-                colors: [Color.blue.opacity(0.1), Color.white.opacity(0.1)] ,
-                
+                colors: [Color.blue.opacity(0.1), Color.white.opacity(0.1)],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
             .ignoresSafeArea()
             
             //white rectangle background. Feel free to adjust size and padding to fit and position any content you want it to fit, or if not needed, delete/uncomment.
-            ZStack{
+            ZStack {
                 Rectangle()
                     .fill(.white)
                     .cornerRadius(30)
-                    .frame(width:360, height:280)
+                    .frame(width: 360, height: 380)
                     .padding(.bottom, 85)
                 
-                VStack{
-                    VStack{
-                    ZStack{
+                VStack(spacing: 0) {
+                    
+                    ZStack {
                         Image("titleCardA")
                             .resizable()
                             .frame(width: 400, height: 160)
@@ -54,44 +60,99 @@ struct EggSelectionView: View {
                         //  .background(Color.blue.opacity(0.5))
                             .foregroundColor(Color.black)
                             .cornerRadius(15)
-                            .padding(.top,45 )
+                            .padding(.top, 45)
                     }
-                        
-                }
-                    VStack{
-                        //NOTE:
-                        //add any content for the view here.
-                        //this a placeholder text which can be deleted or used as instruction text (e.g. tasks view)
-                        //After UI content is added, will need to use padding and spacers to position title card, navigation link button etc.
-                        
-                        Text("Hello World/ Can use as Instruction Text")
+                    
+                    Text("Select the egg you would like to\nhatch in this study session")
+                        .font(.body)
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(Color.black)
+                        .padding(.top, 10)
+                        .padding(.bottom, 20)
+                    
+                    HStack(spacing: 20) {
+                        ForEach(eggOptions, id: \.id) { egg in
+                            EggOptionButton(
+                                eggId: egg.id,
+                                isSelected: selectedEgg == egg.id,
+                                buttonColourYellow: buttonColourYellow
+                            ) {
+                                selectedEgg = egg.id
+                            }
+                        }
+                    }
+                    .padding(.bottom, 15)
+                    
+                    Text(selectionLabel(for: selectedEgg))
+                        .font(.subheadline)
+                        .foregroundColor(outlineColourBrown)
+                        .padding(.bottom, 5)
+                    
+                    Text("Remember to not get distracted or quit the app! Your egg may take longer to hatch...")
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                        .multilineTextAlignment(.center)
+                        .frame(width: 280)
+                        .padding(.bottom, 20)
+                    
+                    //nav link
+                    NavigationLink(destination: StudySessionView().environmentObject(timerViewModel), label: {
+                        Text("Start Study Session")
+                            .foregroundColor(outlineColourBrown)
+                            .frame(maxWidth: 300)
+                            .frame(height: 50)
                             .font(.title2)
-                            .frame(width: 320, height: 60)
-                            .foregroundColor(Color.black)
-                            .padding(.bottom, 20)
-                            .padding(.top, 10)
-                        
-                        //nav link
-                        NavigationLink(destination: TaskView(), label: {
-                            Text("Continue to task planning")
-                                .foregroundColor(outlineColourBrown)
-                                .frame(maxWidth: 300)
-                                .frame(height:50)
-                                .font(.title2)
-                                .background(buttonColourYellow)
-                                .clipShape(Capsule())
-                            
-                                .padding(.bottom,260)
-                        })
-                    }
+                            .background(buttonColourYellow)
+                            .clipShape(Capsule())
+                            .padding(.bottom, 260)
+                    })
+                    // saves selected egg to timerViewModel before navigating
+                    .simultaneousGesture(TapGesture().onEnded {
+                        timerViewModel.selectedEggType = selectedEgg
+                    })
+                }
+            }
+        }
+    }
+    
+    func selectionLabel(for eggId: String) -> String {
+        switch eggId {
+        case "Egg1": return "You have selected the first Egg."
+        case "Egg2": return "You have selected the second Egg."
+        case "Egg3": return "You have selected the third Egg."
+        default: return ""
+        }
+    }
+}
+
+// MARK: - Egg Option Button
+struct EggOptionButton: View {
+    let eggId: String
+    let isSelected: Bool
+    let buttonColourYellow: Color
+    let onTap: () -> Void
+    
+    var body: some View {
+        Button(action: onTap) {
+            ZStack {
+                Image("\(eggId)a")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 75, height: 75)
+                
+                if isSelected {
+                    Circle()
+                        .stroke(buttonColourYellow, lineWidth: 4)
+                        .frame(width: 82, height: 82)
                 }
             }
         }
     }
 }
- 
+
 #Preview {
     NavigationView {
         EggSelectionView()
+            .environmentObject(TimerViewModel())
     }
 }

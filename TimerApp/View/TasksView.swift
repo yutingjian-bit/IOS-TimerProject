@@ -103,9 +103,9 @@ struct TaskView: View {
                             
                                 .padding(.bottom, 30)
                             
-                            
-                            NavigationLink(destination: StudySessionView().environmentObject(timerViewModel)) {
-                                Text("Start Session")
+                            //nav link - leads to egg selection before starting the session
+                            NavigationLink(destination: EggSelectionView().environmentObject(timerViewModel)) {
+                                Text("Next")
                                     .foregroundColor(outlineColourBrown)
                                     .frame(maxWidth: 300)
                                     .frame(height:50)
@@ -114,10 +114,8 @@ struct TaskView: View {
                                     .clipShape(Capsule())
                                 
                                     .padding(.bottom,260)
-                                
-                                
                             }
-                            
+                            // saves tasks to the shared view model before navigating
                             .simultaneousGesture(TapGesture().onEnded {
                                 viewModel.tasks.removeAll()
                                 if !Task1.isEmpty {
@@ -146,6 +144,5 @@ struct TaskView: View {
 #Preview {
     TaskView()
         .environmentObject(TimerViewModel())
+        .environmentObject(TasksViewModel())
 }
-
-
