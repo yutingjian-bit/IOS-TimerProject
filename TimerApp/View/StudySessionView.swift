@@ -12,7 +12,7 @@ struct StudySessionView: View {
     
     @Environment(\.dismiss) var dismissToHome
     
-    @StateObject private var viewModel = TimerViewModel()
+    @EnvironmentObject var viewModel: TimerViewModel
     
     @State private var newTaskName: String = ""
    
@@ -74,7 +74,7 @@ struct StudySessionView: View {
                     Circle()
                         .stroke(lineWidth: 20)
                         .opacity(0.1)
-                        .foregroundColor(viewModel.currentMode == .study ? .blue : .yellow)
+                        .foregroundColor(viewModel.currentMode == .study ? Color(red: 114/255, green: 182/255, blue: 215/255) : Color(red: 255/255, green: 215/255, blue: 85/255))
                     
                     
                     Circle()
@@ -88,7 +88,7 @@ struct StudySessionView: View {
                     Image(viewModel.currentEggImageName())
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 260, height: 260)
+                        .frame(width: 280, height: 280)
                         .shadow(radius: 5)
                         .animation(.easeInOut, value: viewModel.eggStage)
                       
@@ -99,32 +99,33 @@ struct StudySessionView: View {
                 Spacer(minLength: 30)
                 
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Today's tasks")
+                    Text("Cycle \(viewModel.eggStage) Tasks")
                         .font(.footnote.bold())
-                        .foregroundColor(.secondary)
+                        .foregroundColor(Color(red: 30/255, green: 120/255, blue: 120/255))
                     
                     ScrollView {
-                        if viewModel.tasks.isEmpty {
-                            Text("No tasks yet.")
+                        let currentCycleTasks = viewModel.tasks.filter { $0.cycle == viewModel.eggStage }
+                        if currentCycleTasks.isEmpty {
+                            Text("No tasks for Cycle \(viewModel.eggStage) yet!")
                                 .font(.callout)
                                 .foregroundColor(.gray)
                                 .padding(.vertical, 10)
                                 .frame(maxWidth: .infinity, alignment: .center)
                         } else {
-                            ForEach($viewModel.tasks) { $task in
+                            ForEach(currentCycleTasks) { task in
                                 HStack {
-                                    Image(systemName: task.isDone ? "checkmark.circle.fill" : "circle")
-                                        .foregroundColor(task.isDone ? .green : .gray)
+                                    Image(systemName: task.isComplete ? "checkmark.circle.fill" : "circle")
+                                        .foregroundColor(task.isComplete ? .green : .gray)
                                         .font(.body)
                                         .onTapGesture {
                                             withAnimation (.easeInOut(duration: 0.3)) {
                                                 viewModel.toggleTask(id: task.id)
                                             }
                                         }
-                                    Text(task.title)
+                                    Text(task.taskName)
                                         .font(.callout)
-                                        .strikethrough(task.isDone)
-                                        .foregroundColor(task.isDone ? .gray : .primary)
+                                        .strikethrough(task.isComplete)
+                                        .foregroundColor(task.isComplete ? .gray : .primary)
                                     Spacer()
                                     
                                 }
@@ -181,7 +182,7 @@ struct StudySessionView: View {
                     }) {
                         ZStack {
                             Circle()
-                                .fill(viewModel.currentMode == .study ? Color.blue : Color.green)
+                                .fill(viewModel.currentMode == .study ? Color(red: 114/255, green: 182/255, blue: 215/255) : Color(red: 255/255, green: 215/255, blue: 85/255))
                                 .frame(width: 80, height: 80)
                                 .shadow(radius: 10)
                             
@@ -222,13 +223,15 @@ struct StudySessionView: View {
             }
         }
         
-        .fullScreenCover(isPresented: $viewModel.showResults) {
+        .sheet(isPresented: $viewModel.showResults) {
             ResultsView(viewModel: viewModel)
+                .presentationDetents([.large])
+                .presentationDragIndicator(.visible)
         }
         .onChange(of: viewModel.goHome) { oldValue, newValue in
             if newValue {
                 viewModel.pauseTimer()
-                dismissToHome()
+                
             }
         }
         
@@ -237,4 +240,5 @@ struct StudySessionView: View {
 
 #Preview {
     StudySessionView()
+        .environmentObject(TimerViewModel())
 }

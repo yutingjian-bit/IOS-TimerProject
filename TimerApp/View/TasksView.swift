@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TaskView: View {
-    @StateObject var viewModel = TasksViewModel()
+    @EnvironmentObject var viewModel: TasksViewModel
     @State private var Task1: String = ""
     @State private var Task2: String = ""
     @State private var Task3: String = ""
@@ -63,7 +63,7 @@ struct TaskView: View {
                     .frame(width: 500)
                 
                 
-                NavigationLink(destination: StudySessionView(), label: {
+                NavigationLink(destination: StudySessionView()) {
                     Text("Start Session")
                         .foregroundColor(Color.white)
                         .frame(maxWidth: 300)
@@ -71,7 +71,26 @@ struct TaskView: View {
                         .font(.title2)
                         .background(Color.blue)
                         .clipShape(Capsule())
+                
+                               
+                }
+                
+                .simultaneousGesture(TapGesture().onEnded {
+                    viewModel.tasks.removeAll()
+                    if !Task1.isEmpty {
+                        viewModel.addTask(taskName: Task1, cycle: selectedCycle)
+                    }
+                    if !Task2.isEmpty {
+                        viewModel.addTask(taskName: Task2, cycle: selectedCycle)
+                    }
+                    if !Task3.isEmpty {
+                        viewModel.addTask(taskName: Task3, cycle: selectedCycle)
+                    }
+                    if !Task4.isEmpty {
+                        viewModel.addTask(taskName: Task4, cycle: selectedCycle)
+                    }
                 })
+                
         }
             .padding(.bottom,300)
           

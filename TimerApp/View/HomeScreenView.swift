@@ -11,7 +11,7 @@ struct HomeScreenView: View {
     //for namecard display based on point values
     @StateObject  var viewModel = UserViewModel()
     
-   
+    @EnvironmentObject var timerViewModel: TimerViewModel
    // @EnvironmentObject var userVm: UserViewModel
     
     //colour palette variables. move to a new view model file???

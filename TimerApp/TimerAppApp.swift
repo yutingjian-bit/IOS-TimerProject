@@ -9,9 +9,26 @@ import SwiftUI
 
 @main
 struct TimerAppApp: App {
+    @StateObject var timerViewModel = TimerViewModel()
+    
+    @StateObject var tasksViewModel = TasksViewModel()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if timerViewModel.goHome {
+                HomeScreenView()
+                    .environmentObject(timerViewModel)
+                    .environmentObject(tasksViewModel)
+                
+                    .onAppear {
+                        timerViewModel.goHome = false
+                        timerViewModel.startNewSession()
+                    }
+            } else  {
+                HomeScreenView()
+                    .environmentObject(timerViewModel)
+                    .environmentObject(tasksViewModel)
+            }
 
         }
     }

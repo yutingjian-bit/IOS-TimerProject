@@ -32,7 +32,7 @@ struct ResultsView: View {
                 HStack {
                     Button(action: {
                         viewModel.goHome = true
-                        dismiss()
+                        
                     }) {
                         Image(systemName: "house.fill")
                             .font(.title2)
@@ -157,7 +157,7 @@ struct ResultsView: View {
                                 Image(systemName: "checkmark")
                                     .font(.caption)
                                     .foregroundColor(.green)
-                                Text("\(Int(viewModel.sucessRate))% success")
+                                Text("\(Int(viewModel.successRate))% success")
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                             }
@@ -177,37 +177,22 @@ struct ResultsView: View {
                         
                         VStack(spacing: 16) {
                             Button(action: {
-                                if viewModel.isCycle4Completed {
-                                    viewModel.startLongBreak()
-                                } else {
-                                    viewModel.startShortBreak()
-                                }
+                                viewModel.startLongBreak()
                                 dismiss()
                             }) {
                                 HStack {
-                                    Image(systemName: viewModel.isCycle4Completed ? "cup.and.saucer.fill" : "arrow.right.circle.fill")
-                                    Text(viewModel.isCycle4Completed ? "Take a long Break" : "Take a short break")
+                                    Image(systemName: "cup.and.saucer.fill")
+                                    Text("Take a 15 min Break")
                                 }
                                 .font(.headline)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 18)
-                                .background(viewModel.isCycle4Completed ? Color.orange : Color.blue)
+                                .background(Color(red: 57/255, green: 33/255, blue: 21/255))
                                 .foregroundColor(.white)
                                 .cornerRadius(30)
-                                .shadow(color: (viewModel.isCycle4Completed ? Color.orange : Color.blue).opacity(0.3), radius: 8, x: 0, y: 5)
+                                .shadow(color: .brown.opacity(0.3), radius: 8, x: 0, y: 5)
                             }
-                            
-                            if viewModel.isCycle4Completed {
-                                Button(action : {
-                                    viewModel.skipBreakAndStartNewCycle()
-                                    dismiss()
-                                }) {
-                                    Text("Skip break & Start a new cycle")
-                                        .font(.subheadline.bold())
-                                        .foregroundColor(.gray)
-                                }
-                                .padding(.bottom, 10)
-                            }
+                    
                         }
                         .padding(.horizontal, 24)
                         .padding(.top, 10)

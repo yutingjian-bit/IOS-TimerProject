@@ -12,11 +12,6 @@ enum TimerMode {
     case study, rest
 }
 
-struct SimpleTask: Identifiable {
-    let id = UUID()
-    var title: String
-    var isDone: Bool
-}
 
 class TimerViewModel: ObservableObject {
     
@@ -33,7 +28,7 @@ class TimerViewModel: ObservableObject {
     
     // shared task pool
     // the timer screen will automtically detect and display the tasks from the task planner
-    @Published var tasks: [SimpleTask] = []
+    @Published var tasks: [TasksItem] = []
     
     @Published var studyDuration: Int = 25
     
@@ -73,7 +68,7 @@ class TimerViewModel: ObservableObject {
         return 1 - (Double(timeRemaining) / Double(total))
     }
     
-    var sucessRate: Double {
+    var successRate: Double {
         let total = successfulSessions + failedSessions
         return total > 0 ? (Double(successfulSessions) / Double(total)) * 100 : 100
     }
@@ -182,20 +177,17 @@ class TimerViewModel: ObservableObject {
         // help us to check if we just completed the 4th cycle in the loop
         isCycle4Completed = (totalStudySessions > 0 && totalStudySessions % totalCycles == 0)
         
-        showResults = true
-        
+        if isCycle4Completed {
+            showResults = true
+        } else {
+            currentMode = .rest
+            timeRemaining = restDuration * 60
+            startTimer()
+        }
         
     }
     
     
-    
-    
-    func startShortBreak() {
-        showResults = false
-        currentMode = .rest
-        timeRemaining = restDuration * 60
-        startTimer()
-    }
     
     
     func startLongBreak() {
@@ -203,14 +195,22 @@ class TimerViewModel: ObservableObject {
         currentMode = .rest
         timeRemaining = 15 * 60
         startTimer()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + Double(15 * 60)) { [weak self] in
+            self?.goHome = true
+        }
     }
     
     func completeRestSession() {
         pauseTimer()
         
-        currentMode = .study
-        timeRemaining = studyDuration * 60
-        startTimer()
+        if timeRemaining == 0 && currentMode == .rest && showResults == false {
+            goHome = true
+        } else {
+            currentMode = .study
+            timeRemaining = studyDuration * 60
+            startTimer()
+        }
     }
 
     
@@ -242,10 +242,18 @@ class TimerViewModel: ObservableObject {
     // task management: it specifically used to check off tasks and move completed tasks to the bottom
     func toggleTask(id: UUID) {
         if let index = tasks.firstIndex(where: { $0.id == id }) {
-            tasks[index].isDone.toggle()
+            tasks[index].isComplete.toggle()
             
-            tasks.sort { !$0.isDone && $1.isDone }
         }
+    }
+    
+    func addTask(taskName: String, cycle: Int) {
+        let newTask = TasksItem(taskName: taskName, cycle: cycle, isComplete: false)
+        tasks.append(newTask)
+    }
+    
+    func tasksForCycle(_ cycle: Int) -> [TasksItem] {
+        return tasks.filter { $0.cycle == cycle }
     }
     
 }

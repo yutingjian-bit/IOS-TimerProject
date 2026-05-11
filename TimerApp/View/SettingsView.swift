@@ -10,6 +10,7 @@ import SwiftUI
 struct SettingsView: View {
     @StateObject var viewModel = TimerViewModel()
     
+    
     //colour palette variables. move to a new view model file???
     var buttonColourBlue = Color(red:114/255, green: 182/255, blue: 215/255)
     
