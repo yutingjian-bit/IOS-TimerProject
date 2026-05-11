@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TaskView: View {
     @EnvironmentObject var viewModel: TasksViewModel
+    @EnvironmentObject var timerViewModel: TimerViewModel
     @State private var Task1: String = ""
     @State private var Task2: String = ""
     @State private var Task3: String = ""
@@ -63,7 +64,7 @@ struct TaskView: View {
                     .frame(width: 500)
                 
                 
-                NavigationLink(destination: StudySessionView()) {
+                NavigationLink(destination: StudySessionView().environmentObject(timerViewModel)) {
                     Text("Start Session")
                         .foregroundColor(Color.white)
                         .frame(maxWidth: 300)

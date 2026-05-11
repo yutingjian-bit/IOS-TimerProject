@@ -101,7 +101,7 @@ struct StudySessionView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Cycle \(viewModel.eggStage) Tasks")
                         .font(.footnote.bold())
-                        .foregroundColor(Color(red: 30/255, green: 120/255, blue: 120/255))
+                        .foregroundColor(Color(red: 140/255, green: 100/255, blue: 200/255))
                     
                     ScrollView {
                         let currentCycleTasks = viewModel.tasks.filter { $0.cycle == viewModel.eggStage }
