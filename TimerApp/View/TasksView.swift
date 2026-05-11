@@ -154,6 +154,7 @@ struct TaskView: View {
                 .navigationDestination(isPresented: $navigateToStudy) {
                     StudySessionView()
                         .environmentObject(timerViewModel)
+                        .environmentObject(tasksViewModel)
                     
                 }
                 

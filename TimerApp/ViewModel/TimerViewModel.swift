@@ -30,9 +30,22 @@ class TimerViewModel: ObservableObject {
     // the timer screen will automtically detect and display the tasks from the task planner
     @Published var tasks: [TasksItem] = []
     
-    @Published var studyDuration: Int = 25
+    @Published var studyDuration: Int = 25 {
+        didSet {
+            if !isRunning && currentMode == .study {
+                timeRemaining = studyDuration * 60
+            }
+        }
+        
+    }
     
-    @Published var restDuration: Int = 5
+    @Published var restDuration: Int = 5 {
+        didSet {
+            if !isRunning && currentMode == .rest {
+                timeRemaining = restDuration * 60
+            }
+        }
+    }
     
     @Published var totalCycles: Int = 4
     
