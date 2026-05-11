@@ -14,14 +14,32 @@ struct TimerAppApp: App {
     @StateObject var userViewModel = UserViewModel()
     @StateObject var tasksViewModel = TasksViewModel()
     @StateObject var eggViewModel = EggViewModel()
+    @State private var isOnLanding = true
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environmentObject(timerViewModel)
-                .environmentObject(userViewModel)
-                .environmentObject(tasksViewModel)
-                .environmentObject(eggViewModel)
+            ZStack{
+                Group{
+                    //new user check
+                    if !userViewModel.isSetupCompleted{
+                        WelcomeView()
+                            .environmentObject(userViewModel)
+                    }else{
+                        HomeScreenView()
+                            .environmentObject(timerViewModel)
+                            .environmentObject(tasksViewModel)
+                            .environmentObject(userViewModel)
+                            .environmentObject(eggViewModel)
+                    }
+                }
+                //landing view
+                if isOnLanding{
+                    ContentView(dismissAction: {
+                        isOnLanding = false
+                    })
+                }
+            }
+            
         }
     }
 }

@@ -43,7 +43,7 @@ struct HomeScreenView: View {
                             .resizable()
                             .frame(width: 350, height: 80)
                         
-                        Text("UserName")
+                        Text(viewModel.username.isEmpty ? "placeholder" : viewModel.username)
                             .font(.largeTitle)
                             .padding(30)
                         //overlay username on top of namecard
