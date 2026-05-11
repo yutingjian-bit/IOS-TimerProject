@@ -11,6 +11,7 @@ struct ResultsView: View {
     @Environment(\.dismiss) var dismiss
     
     @ObservedObject var viewModel: TimerViewModel
+    @EnvironmentObject var eggViewModel: EggViewModel  // needed to record the hatched egg into the gallery
     
     @State private var appear = false
     
@@ -177,6 +178,7 @@ struct ResultsView: View {
                         
                         VStack(spacing: 16) {
                             Button(action: {
+                                eggViewModel.addHatchedEgg(eggType: viewModel.selectedEggType)  // records the egg into the gallery when a full cycle completes
                                 viewModel.startLongBreak()
                                 dismiss()
                             }) {
@@ -283,4 +285,5 @@ struct CoreStat: View {
 
 #Preview {
     ResultsView(viewModel: TimerViewModel())
+        .environmentObject(EggViewModel())
 }
