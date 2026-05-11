@@ -9,7 +9,8 @@ import SwiftUI
 
 struct HomeScreenView: View {
     //for namecard display based on point values
-    @StateObject  var viewModel = UserViewModel()
+    // EnvironmentObject helps to receive updated stats -> make sure the data update properly
+    @EnvironmentObject var viewModel: UserViewModel
     
     @EnvironmentObject var timerViewModel: TimerViewModel
    // @EnvironmentObject var userVm: UserViewModel
@@ -100,7 +101,7 @@ struct HomeScreenView: View {
                     }
                     
                     
-                    NavigationLink(destination: SettingsView(), label: {
+                    NavigationLink(destination: SettingsView(viewModel: timerViewModel)) {
                         Text("Start A Study Session")
                             .foregroundColor(outlineColourBrown)
                             .frame(maxWidth: 300)
@@ -108,11 +109,10 @@ struct HomeScreenView: View {
                             .font(.title2)
                             .background(buttonColourYellow)
                             .clipShape(Capsule())
-                    })
-                    
+                    }
                     .padding(10)
                     
-                    NavigationLink(destination: GalleryView(), label: {
+                    NavigationLink(destination: GalleryView()) {
                         Text("View Collected Eggs")
                             .foregroundColor(outlineColourBrown)
                             .frame(maxWidth: 300)
@@ -121,7 +121,7 @@ struct HomeScreenView: View {
                             .background(buttonColourBlue)
                             .clipShape(Capsule())
 
-                    })
+                    }
                     
                     Spacer()
                         .padding()
@@ -136,5 +136,7 @@ struct HomeScreenView: View {
 
 #Preview {
     HomeScreenView()
+        .environmentObject(UserViewModel())
+        .environmentObject(TimerViewModel())
        // .environmentObject(userViewModel())
 }

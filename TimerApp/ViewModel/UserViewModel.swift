@@ -12,10 +12,10 @@ class UserViewModel: ObservableObject{
     //hardcoded values for stats. valye is of 0 for now until stats calculation is completed from results view
     //change the placeholder values of 0 to a func that calculates those values
 
-    @Published private var totalPoints: Int = 20
-    @Published private var totalSessions: Int = 0
-    @Published private var totalCycles: Int = 0
-    @Published private var totalEggsHatched: Int = 0
+    @Published var totalPoints: Int = 20
+    @Published var totalSessions: Int = 0
+    @Published var totalCycles: Int = 0
+    @Published var totalEggsHatched: Int = 0
     
     //switch statment chnaging namecard image depending on total points value
     var namecardImage: String{
@@ -41,6 +41,15 @@ class UserViewModel: ObservableObject{
     //func addPoints(_ amount: Int){
     //    totalPoints += amount
    // }
+    
+    func updateStats(points: Int, cycles: Int, eggStage: Int) {
+        totalPoints += points
+        totalSessions += 1
+        totalCycles += cycles
+        if eggStage >= 4 {
+            totalEggsHatched += 1
+        }
+    }
     
     //function to add results to study stats, incomplete placeholder
     func addSessionResults(points: Int, isCycleFinished: Bool, cycleAmount: Int){

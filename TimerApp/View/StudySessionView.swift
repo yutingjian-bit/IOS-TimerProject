@@ -15,6 +15,8 @@ struct StudySessionView: View {
     @EnvironmentObject var viewModel: TimerViewModel
     
     @State private var newTaskName: String = ""
+    
+    @EnvironmentObject var userViewModel: UserViewModel
    
     
     var body: some View {
@@ -46,20 +48,7 @@ struct StudySessionView: View {
                         
                     )
                     
-                    HStack {
-                        Spacer()
-                        Button(action: {
-                            viewModel.showResults = true
-                        }) {
-                            Image(systemName: "chart.bar.fill")
-                                .font(.title2)
-                                .foregroundColor(.blue)
-                                .padding(12)
-                                .background(Color.white)
-                                .clipShape(Circle())
-                                .shadow(color: .gray.opacity(0.2), radius: 5)
-                        }
-                    }
+                    
                 }
                 .padding(.horizontal, 24)
                 .padding(.top, 10)
@@ -223,10 +212,9 @@ struct StudySessionView: View {
             }
         }
         
-        .sheet(isPresented: $viewModel.showResults) {
+        .fullScreenCover(isPresented: $viewModel.showResults) {
             ResultsView(viewModel: viewModel)
-                .presentationDetents([.large])
-                .presentationDragIndicator(.visible)
+                .environmentObject(userViewModel)
         }
         .onChange(of: viewModel.goHome) { oldValue, newValue in
             if newValue {
@@ -241,4 +229,5 @@ struct StudySessionView: View {
 #Preview {
     StudySessionView()
         .environmentObject(TimerViewModel())
+        .environmentObject(UserViewModel())
 }

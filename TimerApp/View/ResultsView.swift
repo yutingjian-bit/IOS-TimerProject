@@ -14,6 +14,8 @@ struct ResultsView: View {
     
     @State private var appear = false
     
+    @EnvironmentObject var userViewModel: UserViewModel
+    
 
     
     var body: some View {
@@ -27,179 +29,165 @@ struct ResultsView: View {
             )
             .ignoresSafeArea()
             
-            
+           
             VStack(spacing: 0) {
-                HStack {
-                    Button(action: {
-                        viewModel.goHome = true
+                Spacer(minLength: 7)
+                
+                ZStack {
+                    if viewModel.eggStage <= 2 {
+                        Image("titleCardA")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 350, height: 160)
+                            
+                    } else {
+                        Image("titleCardB")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 350, height: 160)
+                            
+                    }
+                    
+                    VStack(spacing: 6) {
+                        Text("Cycle complete")
+                            .font(.largeTitle.bold())
+                            .foregroundColor(.primary)
+                            
+                    }
+                    
+                    .offset(y: 18)
+                }
+            
+                  
+                Spacer().frame(height: 15)
+                 
+                
+                    
+                Image(currentEggImage())
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxHeight: 220)
+                    .shadow(color: .gray.opacity(0.3), radius: 12, x: 0, y: 8)
+                    .scaleEffect(appear ? 1.0 : 0.8)
+                    .opacity(appear ? 1 : 0)
+                    .animation(.spring(response: 0.6, dampingFraction: 0.7).delay(0.1), value: appear)
+                    
+                Spacer().frame(height: 20)
+                    
+                    
+                VStack(spacing: 12) {
+                    Text(currentStatus())
+                        .font(.title2.bold())
+                        .foregroundColor(.blue)
                         
-                    }) {
-                        Image(systemName: "house.fill")
-                            .font(.title2)
-                            .foregroundColor(.brown)
-                            .padding(12)
-                            .background(Color.white.opacity(0.9))
-                            .clipShape(Circle())
-                            .shadow(color: .gray.opacity(0.1), radius: 4)
+                        
+                    Text(currentMotivation())
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 30)
+                        
+                }
+                
+                    
+                Spacer().frame(height: 30)
+                    
+                
+                
+                // progress bar
+                VStack(spacing: 8) {
+                    HStack {
+                        Text("Egg Evolution")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        Spacer()
+                        Text("Stage \(viewModel.eggStage)/4")
+                            .font(.caption.bold())
+                            .foregroundColor(.blue)
+                    }
+                        
+                        
+                    GeometryReader { geometry in
+                        ZStack(alignment: .leading) {
+                            Capsule()
+                                .fill(Color.gray.opacity(0.15))
+                                .frame(height: 8)
+                            Capsule()
+                                .fill(Color.green)
+                                .frame(width: geometry.size.width * CGFloat(evolutionProgress), height: 8)
+                                .animation(.easeOut(duration: 0.5), value: evolutionProgress)
+                        }
+                    }
+                    .frame(height: 8)
+                }
+                .padding(.horizontal, 32)
+                    
+                Spacer().frame(height: 35)
+                    
+                
+                // statistics
+                HStack(spacing: 20) {
+                    StatItem(value: "+\(viewModel.pointsEarnedThisSession)", label: "earned", color: .green)
+                    StatItem(value: "\(viewModel.totalPoints)", label: "total", color: .orange)
+                    StatItem(value: "\(viewModel.totalStudySessions)", label: "completed", color: .blue)
+                }
+                .padding(.horizontal, 28)
+                    
+                    
+                Spacer().frame(height: 28)
+                    
+                    
+                // sucess rate and points
+                HStack {
+                    HStack {
+                        Image(systemName: "checkmark")
+                            .font(.subheadline)
+                            .foregroundColor(.green)
+                        Text("\(Int(viewModel.successRate))% success")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
                     }
                     Spacer()
-                }
-                .padding(.horizontal, 20)
-                .padding(.top, 10)
-                
-                Spacer(minLength: 15)
-                
-                
-                
-                ScrollView(showsIndicators: false) {
-                    VStack(spacing: 0) {
-                        
-                        Spacer(minLength: 15)
-                        
-                        
-                        VStack(spacing: 6) {
-                            Text("Cycle complete")
-                                .font(.largeTitle.bold())
-                                .foregroundColor(.primary)
-                            
-                            Text("Your egg is growing ~")
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                        }
-                        
-                        Spacer(minLength: 25)
-                        
-                        
-                        VStack(spacing: 12) {
-                            if viewModel.eggStage >= 2 {
-                                Image(nameCardImage())
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 160, height: 50)
-                                
-                            }
-                            
-                            
-                            Image(currentEggImage())
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame( height: 200)
-                                .shadow(color: .gray.opacity(0.3), radius: 12, x: 0, y: 8)
-                                .scaleEffect(appear ? 1.0 : 0.8)
-                                .opacity(appear ? 1 : 0)
-                                .animation(.spring(response: 0.6, dampingFraction: 0.7).delay(0.1), value: appear)
-                            
-                            
-                            
-                            
-                            Text(currentStatus())
-                                .font(.title2.bold())
-                                .foregroundColor(.blue)
-                            
-                            
-                            Text(currentMotivation())
-                                .font(.body)
-                                .foregroundColor(.secondary)
-                                .multilineTextAlignment(.center)
-                                .padding(.horizontal, 32)
-                            
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 20)
-                        .background(Color.white.opacity(0.6))
-                        .cornerRadius(30)
-                        .padding(.horizontal, 20)
-                        
-                        Spacer(minLength: 25)
-                        
-                        // progress bar
-                        VStack(spacing: 8) {
-                            HStack {
-                                Text("Egg Evolution")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                                Spacer()
-                                Text("Stage \(viewModel.eggStage)/4")
-                                    .font(.caption.bold())
-                                    .foregroundColor(.blue)
-                            }
-                            
-                            GeometryReader { geometry in
-                                ZStack(alignment: .leading) {
-                                    Capsule()
-                                        .fill(Color.gray.opacity(0.15))
-                                        .frame(height: 8)
-                                    Capsule()
-                                        .fill(Color.green)
-                                        .frame(width: geometry.size.width * CGFloat(evolutionProgress), height: 8)
-                                        .animation(.easeOut(duration: 0.5), value: evolutionProgress)
-                                }
-                            }
-                            .frame(height: 8)
-                        }
-                        .padding(.horizontal, 24)
-                        
-                        Spacer(minLength: 25)
-                        
-                        // statistics
-                        HStack(spacing: 15) {
-                            CoreStat(value: "+\(viewModel.pointsEarnedThisSession)", label: "earned", icon: "arrow.up", color: .green)
-                            CoreStat(value: "\(viewModel.totalPoints)", label: "total", icon: "star", color: .orange)
-                            CoreStat(value: "\(viewModel.totalStudySessions)", label: "completed", icon: "repeat", color: .blue)
-                        }
-                        .padding(.horizontal, 20)
-                        
-                        Spacer(minLength: 15)
-                        
-                        
-                        HStack {
-                            HStack {
-                                Image(systemName: "checkmark")
-                                    .font(.caption)
-                                    .foregroundColor(.green)
-                                Text("\(Int(viewModel.successRate))% success")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                            }
-                            Spacer()
-                            HStack {
-                                Image(systemName: "gift")
-                                    .font(.caption)
-                                    .foregroundColor(.orange)
-                                Text("\(nextRewardPoints) pts to next")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                            }
-                        }
-                        .padding(.horizontal, 23)
-                        
-                        Spacer(minLength: 35)
-                        
-                        VStack(spacing: 16) {
-                            Button(action: {
-                                viewModel.startLongBreak()
-                                dismiss()
-                            }) {
-                                HStack {
-                                    Image(systemName: "cup.and.saucer.fill")
-                                    Text("Take a 15 min Break")
-                                }
-                                .font(.headline)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 18)
-                                .background(Color(red: 57/255, green: 33/255, blue: 21/255))
-                                .foregroundColor(.white)
-                                .cornerRadius(30)
-                                .shadow(color: .brown.opacity(0.3), radius: 8, x: 0, y: 5)
-                            }
-                    
-                        }
-                        .padding(.horizontal, 24)
-                        .padding(.top, 10)
-                        .padding(.bottom, 40)
-                        
+                    HStack {
+                        Image(systemName: "gift")
+                            .font(.subheadline)
+                            .foregroundColor(.orange)
+                        Text("\(nextRewardPoints) pts to next")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
                     }
                 }
+                .padding(.horizontal, 32)
+                    
+                Spacer()
+                    
+                
+                
+                
+                Button(action: {
+                    userViewModel.updateStats(
+                        points: viewModel.finalTotalPoints,
+                        cycles: viewModel.finalCompletedCycles,
+                        eggStage: viewModel.finalEggStage
+                    )
+                    viewModel.goHome = true
+                    dismiss()
+                }) {
+                    HStack {
+                        Image(systemName: "house.fill")
+                        Text("Back to Home")
+                    }
+                    .font(.headline)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 18)
+                    .background(Color(red: 57/255, green: 33/255, blue: 21/255))
+                    .foregroundColor(.white)
+                    .cornerRadius(30)
+                    .shadow(color: .brown.opacity(0.3), radius: 8, x: 0, y: 5)
+                }
+                .padding(.horizontal, 24)
+                
+                    
             }
         }
         .onAppear {
@@ -212,7 +200,7 @@ struct ResultsView: View {
         let suffix = stage == 1 ? "a" : stage == 2 ? "b" : stage == 3 ? "c" : "d"
         return "\(viewModel.selectedEggType)\(suffix)"
     }
-    
+        
     func nameCardImage() -> String {
         switch viewModel.eggStage {
         case 2: return "nameCardLv1"
@@ -221,17 +209,17 @@ struct ResultsView: View {
         default: return "nameCardLv1"
         }
     }
-    
-    
+        
+        
     var evolutionProgress: Double {
-        Double(viewModel.eggStage - 1) / 3.0
+        Double(viewModel.eggStage - 1) / 4.0
     }
-    
+        
     var nextRewardPoints: Int {
         let next = ((viewModel.totalPoints / 50) + 1) * 50
         return max(0, next - viewModel.totalPoints)
     }
-    
+        
     
     func currentStatus() -> String {
         switch viewModel.eggStage {
@@ -242,8 +230,8 @@ struct ResultsView: View {
         default: return "A cute egg"
         }
     }
-    
-    
+        
+        
     func currentMotivation() -> String {
         switch viewModel.eggStage {
         case 1: return "Keep trying, you're doing great!"
@@ -255,32 +243,30 @@ struct ResultsView: View {
     }
 }
 
-struct CoreStat: View {
+
+
+struct StatItem: View {
     let value: String
     let label: String
-    let icon: String
     let color: Color
-    
     
     var body: some View {
         VStack(spacing: 6) {
-            Image(systemName: icon)
-                .font(.subheadline)
-                .foregroundColor(color)
             Text(value)
                 .font(.title2.bold())
+                .foregroundColor(color)
             Text(label)
-                .font(.caption2)
+                .font(.caption)
                 .foregroundColor(.secondary)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 12)
-        .background(Color.white.opacity(0.8))
-        .cornerRadius(24)
-        .shadow(color: .gray.opacity(0.05), radius: 5)
+        .background(color.opacity(0.1))
+        .cornerRadius(16)
     }
 }
 
 #Preview {
     ResultsView(viewModel: TimerViewModel())
+        .environmentObject(UserViewModel())
 }

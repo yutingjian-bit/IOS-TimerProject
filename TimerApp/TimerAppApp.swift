@@ -13,12 +13,15 @@ struct TimerAppApp: App {
     
     @StateObject var tasksViewModel = TasksViewModel()
     
+    @StateObject var userViewModel = UserViewModel()
+    
     var body: some Scene {
         WindowGroup {
             if timerViewModel.goHome {
                 HomeScreenView()
                     .environmentObject(timerViewModel)
                     .environmentObject(tasksViewModel)
+                    .environmentObject(userViewModel)
                 
                     .onAppear {
                         timerViewModel.goHome = false
@@ -28,6 +31,7 @@ struct TimerAppApp: App {
                 HomeScreenView()
                     .environmentObject(timerViewModel)
                     .environmentObject(tasksViewModel)
+                    .environmentObject(userViewModel)
             }
 
         }

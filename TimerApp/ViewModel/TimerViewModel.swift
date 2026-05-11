@@ -48,6 +48,11 @@ class TimerViewModel: ObservableObject {
     
     @Published var isCycle4Completed: Bool = false
     
+    @Published var finalTotalPoints: Int = 0
+    
+    @Published var finalCompletedCycles: Int = 0
+    
+    @Published var finalEggStage: Int = 0
     
     private var timer: AnyCancellable?
     
@@ -178,6 +183,10 @@ class TimerViewModel: ObservableObject {
         isCycle4Completed = (totalStudySessions > 0 && totalStudySessions % totalCycles == 0)
         
         if isCycle4Completed {
+            finalTotalPoints = totalPoints
+            finalCompletedCycles = totalStudySessions
+            finalEggStage = eggStage
+            
             showResults = true
         } else {
             currentMode = .rest
