@@ -72,8 +72,8 @@ struct EggSelectionView: View {
                             .padding(.top, 10)
                         
                         //nav link
-                        NavigationLink(destination: StudySessionView(), label: {
-                            Text("Start Study Session")
+                        NavigationLink(destination: TaskView(), label: {
+                            Text("Continue to task planning")
                                 .foregroundColor(outlineColourBrown)
                                 .frame(maxWidth: 300)
                                 .frame(height:50)

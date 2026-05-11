@@ -135,8 +135,8 @@ struct SettingsView: View {
                     .padding(.vertical, 60)
                     .padding(.horizontal, 40)
                     
-                    NavigationLink(destination: TaskView(), label: {
-                        Text("Continue to task planning")
+                    NavigationLink(destination: EggSelectionView(), label: {
+                        Text("Continue to egg selection")
                             .foregroundColor(outlineColourBrown)
                             .frame(maxWidth: 300)
                             .frame(height:50)
