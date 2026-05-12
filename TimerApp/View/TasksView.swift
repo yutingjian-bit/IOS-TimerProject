@@ -43,7 +43,7 @@ struct TaskView: View {
                             .fill(.white)
                             .cornerRadius(30)
                             .frame(width:360, height: 300)
-                            .padding(.bottom, 85)
+                            .padding(.bottom, 15)
                         
                         VStack{
                             
@@ -134,19 +134,23 @@ struct TaskView: View {
                                     
                                 } label: {
                                     
-                                    Text("Next")
+                                    Text("Start Study Session")
                                         .foregroundColor(outlineColourBrown)
-                                        .frame(width: 200, height: 50)
+                                        .frame(width: 300, height: 50)
                                         .font(.title2)
                                         .background(buttonColourYellow)
                                         .clipShape(Capsule())
                                         .padding(.bottom, 40)
+                                        .padding(.top, 100)
+                                    
                                     
                                 }
                                 
                             }
                             
                         }
+                        .padding(.bottom, 70)
+                        
                         
                     }
                     

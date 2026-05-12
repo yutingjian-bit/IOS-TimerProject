@@ -119,8 +119,9 @@ struct EggSelectionView: View {
                             .clipShape(Capsule())
                             .padding(.bottom, 260)
                     }
-                            .padding(.bottom,100)
+                         //   .padding(.bottom,0)
                     }
+                .padding(.top, 170)
                     // saves selected egg to timerViewModel before navigating
                     .simultaneousGesture(TapGesture().onEnded {
                         timerViewModel.selectedEggType = selectedEgg

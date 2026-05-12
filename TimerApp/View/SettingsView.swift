@@ -35,7 +35,7 @@ struct SettingsView: View {
                     .fill(.white)
                     .cornerRadius(30)
                     .frame(width:360, height:400)
-                    .padding(.bottom, 120)
+                    .padding(.bottom, 100)
                 
                 
                 VStack{
@@ -109,7 +109,7 @@ struct SettingsView: View {
                         
                         .tint(.red.opacity(0.5))
                     }
-                    .padding(.top, 60)
+                   // .padding(.top, 0)
                     .padding(.horizontal, 40)
                     
                     VStack(alignment: .leading, spacing:10){
@@ -130,7 +130,7 @@ struct SettingsView: View {
                         
                         .tint(.green.opacity(0.5))
                     }
-                    .padding(.vertical, 60)
+                    .padding(.top, 20)
                     .padding(.horizontal, 40)
                     
                     NavigationLink(destination: EggSelectionView().environmentObject(viewModel)){
@@ -144,7 +144,8 @@ struct SettingsView: View {
                     }
                     
                     
-                    .padding(.bottom, 300)
+                    .padding(.bottom, 200)
+                    .padding(.top,130)
                     
                 }
             }
