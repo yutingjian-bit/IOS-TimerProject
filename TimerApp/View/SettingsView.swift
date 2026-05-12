@@ -35,7 +35,7 @@ struct SettingsView: View {
                     .fill(.white)
                     .cornerRadius(30)
                     .frame(width:360, height:400)
-                    .padding(.bottom, 90)
+                    .padding(.bottom, 120)
                 
                 
                 VStack{
@@ -63,7 +63,7 @@ struct SettingsView: View {
                     }
                     
                     
-                    .padding(.bottom, 20)
+                    .padding(.bottom, 5)
                     
                     
                     VStack(alignment: .leading, spacing:10){
@@ -86,7 +86,7 @@ struct SettingsView: View {
                         
                     }
                     
-                    .padding(.top, 10)
+                    .padding(.top, 30)
                     .padding(.horizontal, 40)
                     Spacer()
                     
@@ -109,7 +109,7 @@ struct SettingsView: View {
                         
                         .tint(.red.opacity(0.5))
                     }
-                    .padding(.top, 0)
+                    .padding(.top, 60)
                     .padding(.horizontal, 40)
                     
                     VStack(alignment: .leading, spacing:10){
@@ -130,9 +130,8 @@ struct SettingsView: View {
                         
                         .tint(.green.opacity(0.5))
                     }
-                    .padding(.top, 30)
+                    .padding(.vertical, 60)
                     .padding(.horizontal, 40)
-                    .padding(.bottom,70)
                     
                     NavigationLink(destination: EggSelectionView().environmentObject(viewModel)){
                         Text("Continue to egg selection")
@@ -145,7 +144,7 @@ struct SettingsView: View {
                     }
                     
                     
-                    .padding(.bottom, 260)
+                    .padding(.bottom, 300)
                     
                 }
             }
@@ -166,4 +165,5 @@ struct SettingsView: View {
 #Preview {
     SettingsView(viewModel: TimerViewModel())
         .environmentObject(TimerViewModel())
+        .environmentObject(TasksViewModel())
 }

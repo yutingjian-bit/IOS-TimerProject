@@ -139,4 +139,5 @@ struct HomeScreenView: View {
     HomeScreenView()
         .environmentObject(TimerViewModel())
         .environmentObject(EggViewModel())
+        .environmentObject(TasksViewModel())
 }

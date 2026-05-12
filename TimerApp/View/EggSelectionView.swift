@@ -14,8 +14,6 @@ struct EggSelectionView: View {
     
     @EnvironmentObject var tasksViewModel: TasksViewModel
     
-    @EnvironmentObject var userViewModel: UserViewModel
-    
     @State private var selectedEgg: String = "Egg1"
     
     //colour palette variables
@@ -111,7 +109,6 @@ struct EggSelectionView: View {
                     NavigationLink(destination: TaskView()
                         .environmentObject(timerViewModel)
                         .environmentObject(tasksViewModel)
-                        .environmentObject(userViewModel)
                     ){
                         Text("Go to Task Planner")
                             .foregroundColor(outlineColourBrown)
@@ -172,6 +169,7 @@ struct EggOptionButton: View {
     NavigationView {
         EggSelectionView()
             .environmentObject(TimerViewModel())
-            .environmentObject(UserViewModel())
+            .environmentObject(TasksViewModel())
+        
     }
 }
