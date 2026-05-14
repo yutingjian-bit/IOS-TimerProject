@@ -15,6 +15,9 @@ struct HomeScreenView: View {
    // @EnvironmentObject var userVm: UserViewModel
     @EnvironmentObject var eggViewModel: EggViewModel  // needed to pass hatched eggs through to GalleryView
 
+    @EnvironmentObject var tasksViewModel: TasksViewModel
+    
+    @EnvironmentObject var userViewModel: UserViewModel
     
     //colour palette variables. move to a new view model file???
     var buttonColourBlue = Color(red:114/255, green: 182/255, blue: 215/255)
@@ -86,7 +89,7 @@ struct HomeScreenView: View {
                             .frame(width: 390, height: 190, alignment: .leading)
                         
                         Image("Egg3a") //left egg
-                            .resizable()
+                            .resizable()t
                             .scaledToFit()
                             .frame(width: 390, height: 190, alignment: .trailing)
                         
@@ -139,4 +142,6 @@ struct HomeScreenView: View {
     HomeScreenView()
         .environmentObject(TimerViewModel())
         .environmentObject(EggViewModel())
+        .environmentObject(TasksViewModel())
+        .environmentObject(UserViewModel())
 }
