@@ -10,14 +10,11 @@ import SwiftUI
 struct TaskView: View {
     @EnvironmentObject var timerViewModel: TimerViewModel
     @EnvironmentObject var tasksViewModel: TasksViewModel
-    @EnvironmentObject var userViewModel: UserViewModel
     @State private var Task1: String = ""
     @State private var Task2: String = ""
     @State private var Task3: String = ""
     @State private var Task4: String = ""
     @State private var navigateToStudy = false
-   // @State private var selectedCycle: Int = 1
-    //^ for the picker cycle. commented out
     
     
     //colour palette variables. move to a new view model file???
@@ -45,9 +42,8 @@ struct TaskView: View {
                         Rectangle()
                             .fill(.white)
                             .cornerRadius(30)
-                            .frame(width:360, height: 350)
+                            .frame(width:360, height: 300)
                             .padding(.bottom, 15)
-                            .padding(.top,115)
                         
                         VStack{
                             
@@ -58,113 +54,56 @@ struct TaskView: View {
                                     .frame(width: 400, height: 160)
                                 //.padding(.top, 10)
                                     .padding(.trailing, 10)
-                                    .padding(.top, 40)
                                 
                                 Text("Task Planning")
                                     .font(.largeTitle)
-                                    .frame(width: 300, height: 100)
+                                    .frame(width: 300, height: 60)
                                     .foregroundColor(Color.black)
                                     .cornerRadius(15)
-                                    .padding(.top, 90 )
+                                    .padding(.top, 45 )
                                 
                             }
-                            .padding(.top, 100)
                             
-                            VStack{
+                            Text("List the tasks you aim to complete in each cycle:")
+                                .font(.title2)
+                            // .bold()
+                                .frame(width: 320, height: 70)
+                                .foregroundColor(Color.black)
+                                .cornerRadius(15)
+                                .padding(.bottom, 20)
+                                .padding(.top, 10)
+                            
+                            VStack(spacing: 15){
+                                TextField("Task 1 for cycle 1...", text: $Task1)
+                                    .textFieldStyle(.roundedBorder)
+                                    .fontWeight(.bold)
+                                    .padding(.bottom, 20)
+                                    .padding(.top,30)
+                                    .padding(.horizontal, 100)
+                                    .frame(width: 500)
                                 
+                                TextField("Task 2 for cycle 2...", text: $Task2)
+                                    .textFieldStyle(.roundedBorder)
+                                    .fontWeight(.bold)
+                                    .padding(.bottom, 20)
+                                    .padding(.horizontal, 100)
+                                    .frame(width: 500)
                                 
-                                Text("List the tasks you aim to complete in each cycle:")
-                                    .font(.title2)
-                                // .bold()
-                                    .frame(width: 320, height: 60)
-                                    .foregroundColor(Color.black)
-                                    .cornerRadius(15)
-                                    .padding(.bottom, 40)
-                                    .padding(.top, 20)
+                                TextField("Task 3 for cycle 3...", text: $Task3)
+                                    .textFieldStyle(.roundedBorder)
+                                    .fontWeight(.bold)
+                                    .padding(.bottom, 20)
+                                    .padding(.horizontal, 100)
+                                    .frame(width: 500)
                                 
+                                TextField("Task 4 for cycle 4...", text: $Task4)
+                                    .textFieldStyle(.roundedBorder)
+                                    .fontWeight(.bold)
+                                    .padding(.bottom, 20)
+                                    .padding(.horizontal, 100)
+                                    .frame(width: 500)
                                 
-                                // saves tasks to the shared view model before navigating
-                                
-                                
-                                
-                                
-                                //commented out.
-                                /*  Picker("Cycle", selection: $selectedCycle) {
-                                 Text("Cycle 1").tag(1)
-                                 Text("Cycle 2").tag(2)
-                                 Text("Cycle 3").tag(3)
-                                 Text("Cycle 4").tag(4)
-                                 }
-                                 .pickerStyle(.segmented)
-                                 .padding(.horizontal, 40)
-                                 .padding(.bottom, 10)
-                                 .frame(width:440) */
-                                
-                                Spacer(minLength: 50)
-                                
-                                
-                                VStack{
-                                    
-                                    HStack{
-                                        
-                                        Image("Egg1a")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 50, height: 50)
-                                        
-                                        TextField("Task 1...", text: $Task1)
-                                            .textFieldStyle(.roundedBorder)
-                                            .font(.title3)
-                                            .fontWeight(.black)
-                                            .padding(.bottom, 20)
-                                            .frame(width: 270, height: 10)
-                                    }
-                                    Spacer(minLength: 20)
-                                    
-                                    HStack{
-                                        Image("Egg2a")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 50, height: 50)
-                                        
-                                        TextField("Task 2...", text: $Task2)
-                                            .textFieldStyle(.roundedBorder)
-                                            .font(.title3)
-                                            .fontWeight(.black)
-                                            .padding(.bottom, 20)
-                                            .frame(width: 270)
-                                    }
-                                    
-                                    Spacer(minLength: 20)
-                                    
-                                    HStack{
-                                        Image("Egg3a")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 50, height: 50)
-                                        
-                                        TextField("Task 3...", text: $Task3)
-                                            .textFieldStyle(.roundedBorder)
-                                            .fontWeight(.black)
-                                            .padding(.bottom, 20)
-                                            .frame(width: 270)
-                                    }
-                                    Spacer(minLength: 20)
-                                    
-                                    HStack{
-                                        Image("Egg4a")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 50, height: 50)
-                                        
-                                        TextField("Task 4...", text: $Task4)
-                                            .textFieldStyle(.roundedBorder)
-                                            .fontWeight(.black)
-                                            .padding(.bottom, 20)
-                                            .frame(width: 270)
-                                    }
-                                }
-                                .padding(.bottom, 30)
+                                    .padding(.bottom, 30)
                                 
                                 //nav link - leads to egg selection before starting the session
                                 
@@ -173,7 +112,7 @@ struct TaskView: View {
                                 // saves tasks to the shared view model before navigating
                                 Button {
                                     tasksViewModel.removeAllTasks()
-                                    
+                                 
                                     if !Task1.isEmpty {
                                         tasksViewModel.addTask(taskName: Task1, cycle: 1)
                                     }
@@ -195,30 +134,34 @@ struct TaskView: View {
                                     
                                 } label: {
                                     
-                                    Text("Next")
+                                    Text("Start Study Session")
                                         .foregroundColor(outlineColourBrown)
                                         .frame(width: 300, height: 50)
                                         .font(.title2)
                                         .background(buttonColourYellow)
                                         .clipShape(Capsule())
-                                        .padding(.bottom, 230)
-                                        .padding(.top,50)
+                                        .padding(.bottom, 40)
+                                        .padding(.top, 100)
+                                    
                                     
                                 }
                                 
                             }
                             
                         }
+                        .padding(.bottom, 70)
+                        
                         
                     }
-                }
-                
+                    
                 }
                 .navigationDestination(isPresented: $navigateToStudy) {
                     StudySessionView()
                         .environmentObject(timerViewModel)
                         .environmentObject(tasksViewModel)
-                        .environmentObject(userViewModel)
+                        .environmentObject(UserViewModel())
+                        .environmentObject(EggViewModel())
+                    
                 }
                 
             }
@@ -226,12 +169,10 @@ struct TaskView: View {
         }
         
     }
-
+}
 
 #Preview {
     TaskView()
         .environmentObject(TimerViewModel())
         .environmentObject(TasksViewModel())
-        .environmentObject(UserViewModel())
 }
-

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @ObservedObject var viewModel: TimerViewModel
+    @EnvironmentObject var viewModel: TimerViewModel
     
     
     //colour palette variables. move to a new view model file???
@@ -35,7 +35,7 @@ struct SettingsView: View {
                     .fill(.white)
                     .cornerRadius(30)
                     .frame(width:360, height:400)
-                    .padding(.bottom, 90)
+                    .padding(.bottom, 100)
                 
                 
                 VStack{
@@ -60,98 +60,98 @@ struct SettingsView: View {
                                 .padding(.top, 140)
                             
                             Spacer()
+                    }
+                    
+                    
+                    .padding(.bottom, 5)
+                    
+                    
+                    VStack(alignment: .leading, spacing:10){
+                        Text("**Total Study Time:** \(Int(viewModel.studyDuration)) minutes")
+                            .font(.body)
+                        Divider()
+                        Slider(
+                            value: Binding(
+                                get: { Double(viewModel.studyDuration) },
+                                set: { viewModel.studyDuration = Int($0) }
+                            ),
+                            in: 25...45,
+                            step:1,
+                            minimumValueLabel: Text("25"),
+                            maximumValueLabel: Text("45")
+                        ) {
+                            Text("study cycle time")
                         }
-                        
-                        
-                        .padding(.bottom, 20)
-                        
-                        
-                        VStack(alignment: .leading, spacing:10){
-                            Text("**Total Study Time:** \(Int(viewModel.studyDuration)) minutes")
-                                .font(.body)
-                            Divider()
-                            Slider(
-                                value: Binding(
-                                    get: { Double(viewModel.studyDuration) },
-                                    set: { viewModel.studyDuration = Int($0) }
-                                ),
-                                in: 25...45,
-                                step:1,
-                                minimumValueLabel: Text("25"),
-                                maximumValueLabel: Text("45")
-                            ) {
-                                Text("study cycle time")
-                            }
-                            .tint(.yellow.opacity(0.5))
-                            
-                        }
-                        
-                        .padding(.top, 10)
-                        .padding(.horizontal, 40)
-                        Spacer()
-                        
-                        VStack(alignment: .leading, spacing: 10){
-                            Text("**Total Rest Time:** \(Int(viewModel.restDuration)) minutes")
-                                .font(.body)
-                            Divider()
-                            Slider(
-                                value: Binding(
-                                    get: { Double(viewModel.restDuration) },
-                                    set: { viewModel.restDuration = Int($0) }
-                                ),
-                                in: 5...10,
-                                step:1,
-                                minimumValueLabel: Text("5"),
-                                maximumValueLabel: Text("10")
-                            ) {
-                                Text("study cycle time")
-                            }
-                            
-                            .tint(.red.opacity(0.5))
-                        }
-                        .padding(.top, 0)
-                        .padding(.horizontal, 40)
-                        
-                        VStack(alignment: .leading, spacing:10){
-                            Text("**Total Study Cycles:** \(Int(viewModel.totalCycles)) Cycles")
-                                .font(.body)
-                            Divider()
-                            Slider(
-                                value: Binding(
-                                    get: { Double(viewModel.totalCycles) },
-                                    set: { viewModel.totalCycles = Int($0) }
-                                ),
-                                in: 2...4,
-                                minimumValueLabel: Text("2"),
-                                maximumValueLabel: Text("4")
-                            ) {
-                                Text("study cycle time")
-                            }
-                            
-                            .tint(.green.opacity(0.5))
-                        }
-                        .padding(.top, 30)
-                        .padding(.horizontal, 40)
-                        .padding(.bottom,70)
-                        
-                        NavigationLink(destination: EggSelectionView().environmentObject(viewModel)){
-                            Text("Continue to egg selection")
-                                .foregroundColor(outlineColourBrown)
-                                .frame(maxWidth: 300)
-                                .frame(height:50)
-                                .font(.title2)
-                                .background(buttonColourYellow)
-                                .clipShape(Capsule())
-                        }
-                        
-                        
-                        .padding(.bottom, 260)
+                        .tint(.yellow.opacity(0.5))
                         
                     }
+                    
+                    .padding(.top, 30)
+                    .padding(.horizontal, 40)
+                    Spacer()
+                    
+                    VStack(alignment: .leading, spacing: 10){
+                        Text("**Total Rest Time:** \(Int(viewModel.restDuration)) minutes")
+                            .font(.body)
+                        Divider()
+                        Slider(
+                            value: Binding(
+                                get: { Double(viewModel.restDuration) },
+                                set: { viewModel.restDuration = Int($0) }
+                            ),
+                            in: 5...10,
+                            step:1,
+                            minimumValueLabel: Text("5"),
+                            maximumValueLabel: Text("10")
+                        ) {
+                            Text("study cycle time")
+                        }
+                        
+                        .tint(.red.opacity(0.5))
+                    }
+                   // .padding(.top, 0)
+                    .padding(.horizontal, 40)
+                    
+                    VStack(alignment: .leading, spacing:10){
+                        Text("**Total Study Cycles:** \(Int(viewModel.totalCycles)) Cycles")
+                            .font(.body)
+                        Divider()
+                        Slider(
+                            value: Binding(
+                                get: { Double(viewModel.totalCycles) },
+                                set: { viewModel.totalCycles = Int($0) }
+                            ),
+                            in: 2...4,
+                            minimumValueLabel: Text("2"),
+                            maximumValueLabel: Text("4")
+                        ) {
+                            Text("study cycle time")
+                        }
+                        
+                        .tint(.green.opacity(0.5))
+                    }
+                    .padding(.top, 20)
+                    .padding(.horizontal, 40)
+                    
+                    NavigationLink(destination: EggSelectionView()){
+                        Text("Continue to egg selection")
+                            .foregroundColor(outlineColourBrown)
+                            .frame(maxWidth: 300)
+                            .frame(height:50)
+                            .font(.title2)
+                            .background(buttonColourYellow)
+                            .clipShape(Capsule())
+                    }
+                    
+                    
+                    .padding(.bottom, 200)
+                    .padding(.top,130)
+                    
                 }
             }
-            
         }
+        
+        
         
         
     }
@@ -161,9 +161,10 @@ struct SettingsView: View {
       //add navi link to next screen -> task planning
     //also add back button
     
-
+}
 
 #Preview {
-    SettingsView(viewModel: TimerViewModel())
-        
+    SettingsView()
+        .environmentObject(TimerViewModel())
+      //  .environmentObject(TasksViewModel())
 }

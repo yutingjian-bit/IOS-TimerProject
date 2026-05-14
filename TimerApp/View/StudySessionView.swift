@@ -19,6 +19,8 @@ struct StudySessionView: View {
     @EnvironmentObject var userViewModel: UserViewModel
     
     @EnvironmentObject var tasksViewModel: TasksViewModel
+    
+    @EnvironmentObject var eggViewModel: EggViewModel
    
     
     var body: some View {
@@ -221,10 +223,14 @@ struct StudySessionView: View {
         .fullScreenCover(isPresented: $viewModel.showResults) {
             ResultsView(viewModel: viewModel)
                 .environmentObject(userViewModel)
+                .environmentObject(eggViewModel)
         }
         .onChange(of: viewModel.goHome) { oldValue, newValue in
             if newValue {
                 viewModel.pauseTimer()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    dismissToHome()
+                }
                 
             }
         }
@@ -237,4 +243,5 @@ struct StudySessionView: View {
         .environmentObject(TimerViewModel())
         .environmentObject(UserViewModel())
         .environmentObject(TasksViewModel())
+        .environmentObject(EggViewModel())
 }

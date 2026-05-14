@@ -16,7 +16,7 @@ struct ResultsView: View {
     
     @EnvironmentObject var userViewModel: UserViewModel
     
-
+    @EnvironmentObject var eggViewModel: EggViewModel
     
     var body: some View {
         ZStack {
@@ -101,7 +101,7 @@ struct ResultsView: View {
                             .font(.caption)
                             .foregroundColor(.secondary)
                         Spacer()
-                        Text("Stage \(viewModel.eggStage)/4")
+                        Text("Stage \(viewModel.eggStage)/\(viewModel.totalCycles)")
                             .font(.caption.bold())
                             .foregroundColor(.blue)
                     }
@@ -130,6 +130,7 @@ struct ResultsView: View {
                     StatItem(value: "+\(viewModel.pointsEarnedThisSession)", label: "earned", color: .green)
                     StatItem(value: "\(viewModel.totalPoints)", label: "total", color: .orange)
                     StatItem(value: "\(viewModel.totalStudySessions)", label: "completed", color: .blue)
+                    
                 }
                 .padding(.horizontal, 28)
                     
@@ -165,13 +166,28 @@ struct ResultsView: View {
                 
                 
                 Button(action: {
+                    // update hatched egg
+                    eggViewModel.addHatchedEgg(eggType: viewModel.selectedEggType)
+                    
+                    // update stats
                     userViewModel.updateStats(
                         points: viewModel.finalTotalPoints,
                         cycles: viewModel.finalCompletedCycles,
                         eggStage: viewModel.finalEggStage
                     )
+                    
+                    //update eggs hatched
+                   // userViewModel.totalEggsHatched = eggViewModel.totalEggsHatched
+                    
                     viewModel.goHome = true
+                    
                     dismiss()
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        viewModel.resetForHomeScreen()
+                        
+                    }
+                    
                 }) {
                     HStack {
                         Image(systemName: "house.fill")
@@ -212,7 +228,7 @@ struct ResultsView: View {
         
         
     var evolutionProgress: Double {
-        Double(viewModel.eggStage - 1) / 4.0
+        Double(viewModel.eggStage) / Double(viewModel.totalCycles)
     }
         
     var nextRewardPoints: Int {
@@ -269,4 +285,5 @@ struct StatItem: View {
 #Preview {
     ResultsView(viewModel: TimerViewModel())
         .environmentObject(UserViewModel())
+        .environmentObject(EggViewModel())
 }

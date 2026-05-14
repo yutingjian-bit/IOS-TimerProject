@@ -14,8 +14,6 @@ struct EggSelectionView: View {
     
     @EnvironmentObject var tasksViewModel: TasksViewModel
     
-    @EnvironmentObject var userViewModel: UserViewModel
-    
     @State private var selectedEgg: String = "Egg1"
     
     //colour palette variables
@@ -111,7 +109,6 @@ struct EggSelectionView: View {
                     NavigationLink(destination: TaskView()
                         .environmentObject(timerViewModel)
                         .environmentObject(tasksViewModel)
-                        .environmentObject(userViewModel)
                     ){
                         Text("Go to Task Planner")
                             .foregroundColor(outlineColourBrown)
@@ -122,8 +119,9 @@ struct EggSelectionView: View {
                             .clipShape(Capsule())
                             .padding(.bottom, 260)
                     }
-                            .padding(.bottom,100)
+                         //   .padding(.bottom,0)
                     }
+                .padding(.top, 170)
                     // saves selected egg to timerViewModel before navigating
                     .simultaneousGesture(TapGesture().onEnded {
                         timerViewModel.selectedEggType = selectedEgg
@@ -172,6 +170,7 @@ struct EggOptionButton: View {
     NavigationView {
         EggSelectionView()
             .environmentObject(TimerViewModel())
-            .environmentObject(UserViewModel())
+            .environmentObject(TasksViewModel())
+        
     }
 }

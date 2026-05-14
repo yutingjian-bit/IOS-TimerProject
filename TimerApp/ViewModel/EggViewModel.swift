@@ -20,12 +20,11 @@ struct HatchedEgg: Identifiable {
 class EggViewModel: ObservableObject {
     
     @Published var hatchedEggs: [HatchedEgg] = []
-    
     // auto-derive count from the array rather than tracking separately
-    var totalEggsHatched: Int {
-        hatchedEggs.count
-    }
+    @Published var totalEggsHatched: Int = 0
     
+    
+   
     // called from ResultsView when a full cycle completes
     func addHatchedEgg(eggType: String) {
         let newEgg = HatchedEgg(
@@ -34,6 +33,7 @@ class EggViewModel: ObservableObject {
             dateHatched: Date()
         )
         hatchedEggs.append(newEgg)
+        totalEggsHatched = hatchedEggs.count
     }
     
     func deleteEgg(at offsets: IndexSet) {

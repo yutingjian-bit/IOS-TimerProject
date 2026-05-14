@@ -9,15 +9,17 @@ import SwiftUI
 
 struct HomeScreenView: View {
     //for namecard display based on point values
-    @StateObject  var viewModel = UserViewModel()
+   // @StateObject  var viewModel = UserViewModel()
     
     @EnvironmentObject var timerViewModel: TimerViewModel
    // @EnvironmentObject var userVm: UserViewModel
     @EnvironmentObject var eggViewModel: EggViewModel  // needed to pass hatched eggs through to GalleryView
-
+    
     @EnvironmentObject var tasksViewModel: TasksViewModel
     
-    @EnvironmentObject var userViewModel: UserViewModel
+    @State private var isStudySessionActive = false
+    
+    @EnvironmentObject var viewModel: UserViewModel
     
     //colour palette variables. move to a new view model file???
     var buttonColourBlue = Color(red:114/255, green: 182/255, blue: 215/255)
@@ -27,7 +29,8 @@ struct HomeScreenView: View {
     var outlineColourBrown = Color(red:57/255, green: 33/255, blue: 21/255)
     
     var body: some View {
-        NavigationView{
+        //view -> warning
+        NavigationStack{
             ZStack{
                 //gradient
                 LinearGradient(
@@ -89,7 +92,7 @@ struct HomeScreenView: View {
                             .frame(width: 390, height: 190, alignment: .leading)
                         
                         Image("Egg3a") //left egg
-                            .resizable()t
+                            .resizable()
                             .scaledToFit()
                             .frame(width: 390, height: 190, alignment: .trailing)
                         
@@ -104,8 +107,9 @@ struct HomeScreenView: View {
                             .frame(width: 260, height: 200)
                     }
                     
-                    
-                    NavigationLink(destination: SettingsView(viewModel: timerViewModel)) {
+                    Button(action: {
+                        isStudySessionActive = true
+                    }) {
                         Text("Start A Study Session")
                             .foregroundColor(outlineColourBrown)
                             .frame(maxWidth: 300)
@@ -114,10 +118,21 @@ struct HomeScreenView: View {
                             .background(buttonColourYellow)
                             .clipShape(Capsule())
                     }
-                    
                     .padding(10)
                     
-                    NavigationLink(destination: GalleryView().environmentObject(eggViewModel), label: {
+//                    NavigationLink(destination: SettingsView(viewModel: timerViewModel)) {
+//                        Text("Start A Study Session")
+//                            .foregroundColor(outlineColourBrown)
+//                            .frame(maxWidth: 300)
+//                            .frame(height:50)
+//                            .font(.title2)
+//                            .background(buttonColourYellow)
+//                            .clipShape(Capsule())
+//                    }
+                    
+//                    .padding(10)
+                    
+                    NavigationLink(destination: GalleryView().environmentObject(eggViewModel)) {
                         Text("View Collected Eggs")
                             .foregroundColor(outlineColourBrown)
                             .frame(maxWidth: 300)
@@ -125,14 +140,24 @@ struct HomeScreenView: View {
                             .font(.title2)
                             .background(buttonColourBlue)
                             .clipShape(Capsule())
-                    })
+                    }
                     
                     Spacer()
                         .padding()
                     
                 }
+            }
+            .navigationDestination(isPresented: $isStudySessionActive) {
+                SettingsView()
+            }
+            .onChange(of: timerViewModel.goHome) { oldValue, newValue in
+                if newValue {
+                    isStudySessionActive = false
+                    timerViewModel.goHome = false
+                    timerViewModel.startNewSession()
+                }
+            }
         }
-    }
         
     }
 }

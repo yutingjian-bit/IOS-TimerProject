@@ -90,19 +90,23 @@ class TimerViewModel: ObservableObject {
     
     // helps to loop automatically
     var eggStage: Int {
+        let cyclePosition = totalStudySessions % max(totalCycles, 1)
         
-        let cyclePosition = totalStudySessions % totalCycles
-        
-        if currentMode == .study {
-            if cyclePosition == 0 {
-                return 1
+        if showResults {
+            if totalStudySessions > 0 && cyclePosition == 0 {
+                return totalCycles
             }
+            return cyclePosition == 0 ? 1 : cyclePosition
+        } else if currentMode == .rest {
+            if cyclePosition == 0 {
+                return totalCycles
+            }
+            return cyclePosition
+        } else {
             return cyclePosition + 1
         }
-        if cyclePosition == 0 {
-            return totalCycles
-        }
-        return cyclePosition
+        
+        
     }
     
     func currentEggImageName() -> String {
@@ -262,6 +266,24 @@ class TimerViewModel: ObservableObject {
         timer?.cancel()
     }
     
-    
+    func resetForHomeScreen() {
+        pauseTimer()
+        currentMode = .study
+        timeRemaining = studyDuration * 60
+        isRunning = false
+        totalStudySessions = 0
+        successfulSessions = 0
+        pointsLostThisSession = 0
+        pointsEarnedThisSession = 0
+        totalPoints = 0
+        failedSessions = 0
+        showResults = false
+        isCycle4Completed = false
+        finalTotalPoints = 0
+        finalCompletedCycles = 0
+        finalEggStage = 0
+        selectedEggType = "Egg1"
+        timer?.cancel()
+    }
     
 }
