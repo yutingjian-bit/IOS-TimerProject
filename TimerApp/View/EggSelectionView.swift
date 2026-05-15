@@ -36,11 +36,12 @@ struct EggSelectionView: View {
             .ignoresSafeArea()
 
             ZStack {
+                
                 Rectangle()
                     .fill(.white)
                     .cornerRadius(30)
                     .frame(width: 360, height: 220)
-                    .padding(.bottom, 25)
+                    .padding(.bottom,200 )
 
                 VStack(spacing: 0) {
                     ZStack {

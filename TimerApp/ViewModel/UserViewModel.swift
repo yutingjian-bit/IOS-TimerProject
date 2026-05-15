@@ -41,9 +41,9 @@ class UserViewModel: ObservableObject {
     //switch statement changing namecard image depending on total points value
     var namecardImage: String {
         switch totalPoints {
-        case 0..<15:
+        case 0..<80:
             return "nameCardLv1"
-        case 15..<30:
+        case 80..<160:
             return "nameCardLv2"
         default:
             return "nameCardLv3"
