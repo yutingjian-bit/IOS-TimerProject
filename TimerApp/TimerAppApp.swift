@@ -30,6 +30,8 @@ struct TimerAppApp: App {
                             .environmentObject(tasksViewModel)
                             .environmentObject(userViewModel)
                             .environmentObject(eggViewModel)
+                        
+                            .id(timerViewModel.goHome)
                     }
                 }
                 //landing view

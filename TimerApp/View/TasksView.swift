@@ -63,7 +63,7 @@ struct TaskView: View {
                                 .padding(.top, 10)
 
                             VStack(spacing: 15) {
-                                TextField("Task 1...", text: $Task1)
+                                TextField("Cycle 1...", text: $Task1)
                                     .textFieldStyle(.roundedBorder)
                                     .fontWeight(.bold)
                                     .padding(.bottom, 20)
@@ -71,21 +71,21 @@ struct TaskView: View {
                                     .padding(.horizontal, 100)
                                     .frame(width: 500)
 
-                                TextField("Task 2...", text: $Task2)
+                                TextField("Cycle 2...", text: $Task2)
                                     .textFieldStyle(.roundedBorder)
                                     .fontWeight(.bold)
                                     .padding(.bottom, 20)
                                     .padding(.horizontal, 100)
                                     .frame(width: 500)
 
-                                TextField("Task 3...", text: $Task3)
+                                TextField("Cycle 3...", text: $Task3)
                                     .textFieldStyle(.roundedBorder)
                                     .fontWeight(.bold)
                                     .padding(.bottom, 20)
                                     .padding(.horizontal, 100)
                                     .frame(width: 500)
 
-                                TextField("Task 4...", text: $Task4)
+                                TextField("Cycle 4...", text: $Task4)
                                     .textFieldStyle(.roundedBorder)
                                     .fontWeight(.bold)
                                     .padding(.bottom, 20)

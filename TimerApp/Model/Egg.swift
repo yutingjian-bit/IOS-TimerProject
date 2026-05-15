@@ -6,3 +6,9 @@
 //
 
 import Foundation
+struct HatchedEgg: Identifiable,Codable {
+    var id = UUID()
+    var eggType: String
+    var nickname: String
+    var dateHatched: Date
+}

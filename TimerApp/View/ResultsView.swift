@@ -179,9 +179,7 @@ struct ResultsView: View {
                     //update eggs hatched
                    // userViewModel.totalEggsHatched = eggViewModel.totalEggsHatched
                     
-                    viewModel.goHome = true
-                    
-                    dismiss()
+                    viewModel.goHome.toggle()
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                         viewModel.resetForHomeScreen()

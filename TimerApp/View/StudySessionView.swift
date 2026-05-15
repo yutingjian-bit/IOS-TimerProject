@@ -207,7 +207,7 @@ struct StudySessionView: View {
                 // Just for testing the rest button functions
                 #if DEBUG
                 Button(action: {viewModel.forceCompleteSession()}) {
-                    Text("Testing functions")
+                    Text("Testing rest function")
                         .font(.caption)
                         .foregroundColor(.orange)
                         .padding(.bottom, 20)

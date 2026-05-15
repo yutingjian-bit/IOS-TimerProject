@@ -37,7 +37,6 @@ class UserViewModel: ObservableObject {
     @AppStorage("totalPoints") var totalPoints: Int = 0
     @AppStorage("totalSessions") var totalSessions: Int = 0
     @AppStorage("totalCycles") var totalCycles: Int = 0
-    @AppStorage("totalEggsHatched") var totalEggsHatched: Int = 0
     
     //switch statement changing namecard image depending on total points value
     var namecardImage: String {
@@ -56,7 +55,6 @@ class UserViewModel: ObservableObject {
         UserStudyStats(studyStat: "Sessions Completed: ", studyStatValue: totalSessions),
         UserStudyStats(studyStat: "Cycles Completed: ", studyStatValue: totalCycles),
         UserStudyStats(studyStat: "Total Points: ", studyStatValue: totalPoints),
-        UserStudyStats(studyStat: "Eggs Hatched: ", studyStatValue: totalEggsHatched)
     ]}
     
     func updateStats(points: Int, cycles: Int, eggStage: Int) {
@@ -64,7 +62,6 @@ class UserViewModel: ObservableObject {
         totalSessions += 1
         totalCycles += cycles
         if eggStage >= 4 {
-            totalEggsHatched += 1
         }
     }
     
@@ -74,7 +71,6 @@ class UserViewModel: ObservableObject {
         self.totalSessions += 1
         if isCycleFinished {
             self.totalCycles += cycleAmount
-            self.totalEggsHatched += 1
         }
     }
     
