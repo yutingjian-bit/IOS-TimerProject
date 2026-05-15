@@ -167,7 +167,7 @@ struct ResultsView: View {
                 
                 Button(action: {
                     // update hatched egg
-                    //   eggViewModel.addHatchedEgg(eggType: viewModel.selectedEggType)
+                    eggViewModel.addHatchedEgg(eggType: viewModel.selectedEggType)
                     
                     // update stats
                     userViewModel.updateStats(

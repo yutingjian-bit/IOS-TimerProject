@@ -40,7 +40,7 @@ class EggViewModel: ObservableObject {
     
    
     // called from ResultsView when a full cycle completes
-    /*func addHatchedEgg(eggType: String) {
+    func addHatchedEgg(eggType: String) {
         let newEgg = HatchedEgg(
             eggType: eggType,
             nickname: "Egg #\(totalEggsHatched + 1)",
@@ -48,7 +48,7 @@ class EggViewModel: ObservableObject {
         )
         hatchedEggs.append(newEgg)
         totalEggsHatched = hatchedEggs.count
-    }*/
+    }
      
     
     func deleteEgg(at offsets: IndexSet) {

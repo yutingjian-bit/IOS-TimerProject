@@ -11,7 +11,8 @@ struct EggSelectionView: View {
 
     @EnvironmentObject var timerViewModel: TimerViewModel
     @EnvironmentObject var tasksViewModel: TasksViewModel
-    @EnvironmentObject var userViewModel: UserViewModel    
+    @EnvironmentObject var userViewModel: UserViewModel
+    @EnvironmentObject var eggViewModel: EggViewModel
 
     @State private var selectedEgg: String = "Egg1"
 
@@ -101,7 +102,8 @@ struct EggSelectionView: View {
                         TaskView()
                             .environmentObject(timerViewModel)
                             .environmentObject(tasksViewModel)
-                            .environmentObject(userViewModel)   // ← pass forward
+                            .environmentObject(userViewModel) // ← pass forward
+                            .environmentObject(eggViewModel)
                     ) {
                         Text("Go to Task Planner")
                             .foregroundColor(outlineColourBrown)
@@ -161,5 +163,6 @@ struct EggOptionButton: View {
             .environmentObject(TimerViewModel())
             .environmentObject(TasksViewModel())
             .environmentObject(UserViewModel())
+            .environmentObject(EggViewModel())
     }
 }
